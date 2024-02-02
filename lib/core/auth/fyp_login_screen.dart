@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fyp/core/auth/forgot_password_screen.dart';
 import 'package:fyp/core/auth/fyp_signup_screen.dart';
+import 'package:fyp/core/bus_find/find_bus_screen.dart';
 import 'package:fyp/global_widgets/fyp_button.dart';
 import 'package:fyp/global_widgets/fyp_text.dart';
 import 'package:fyp/global_widgets/fyp_textfield.dart';
@@ -77,7 +78,9 @@ class FypLoginScreen extends StatelessWidget {
                                   ),
                                 )),
                             SizedBox(height: 30,),
-                            FypButton(text: "Sign In", onTap: (){},)
+                            FypButton(text: "Sign In", onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=> FindBusScreen()));
+                            },)
                           ],
                         ),
                       ),

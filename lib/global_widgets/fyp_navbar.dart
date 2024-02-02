@@ -17,7 +17,7 @@ class FypNavBar extends StatelessWidget{
       padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
       child: Container(
         width: MediaQuery.of(context).size.width,
-        height: 46,
+        height: 40,
         decoration: BoxDecoration(
           color: primaryColor,
           borderRadius: BorderRadius.circular(30)
@@ -27,8 +27,9 @@ class FypNavBar extends StatelessWidget{
             Center(
               child: FypText(
                 text: title,
-                fontSize: 20,
+                fontSize: 16,
                 color: Colors.white,
+                fontWeight: FontWeight.bold,
               ),
             ),
             Padding(
@@ -39,7 +40,7 @@ class FypNavBar extends StatelessWidget{
                       onTap: (){
                         Navigator.pop(context);
                       },
-                      child: Image.asset(FypIcons.backArrow,height: 15,))),
+                      child: Image.asset(FypIcons.backArrow,height: 18,))),
             )
           ],
         ),

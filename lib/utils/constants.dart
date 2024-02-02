@@ -44,6 +44,11 @@ class FypImages {
 
 //FYP Icons
 class FypIcons{
-  static const doubleArrowIcon  = "assets/icons/doubleArrowIcon.png";
+  static const doubleArrowVertical  = "assets/icons/doubleArrowVertical.png";
+  static const doubleArrowHorizontal  = "assets/icons/doubleArrowHorizontal.png";
   static const backArrow = "assets/icons/backArrow.png";
+  static const findBus = "assets/icons/findBus.png";
+  static const notification = "assets/icons/notification.png";
+  static const busStop = "assets/icons/busStop.png";
+  static const timeTable = "assets/icons/busStop.png";
 }

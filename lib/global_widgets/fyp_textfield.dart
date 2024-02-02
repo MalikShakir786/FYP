@@ -30,6 +30,9 @@ class FypTextField extends StatelessWidget {
           decoration: InputDecoration(
             fillColor: Colors.white,
             hintText: hintText,
+            hintStyle: TextStyle(
+              color: Colors.grey
+            ),
             filled: true,
             contentPadding: EdgeInsets.symmetric(vertical: 11,horizontal: 15),
             border: OutlineInputBorder(

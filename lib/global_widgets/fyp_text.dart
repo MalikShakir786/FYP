@@ -4,7 +4,7 @@ class FypText extends StatelessWidget {
   FypText({
     super.key,
     required this.text,
-    this.fontSize = 16,
+    this.fontSize = 14,
     this.fontWeight = FontWeight.w500,
     this.color = Colors.white,
     this.textAlign = null,
