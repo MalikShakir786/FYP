@@ -41,9 +41,7 @@ class _FypSplashScreenState extends State<FypSplashScreen> {
             height: isAnimate? 200:100,
               duration: Duration(seconds: 1),
               curve: Curves.bounceOut,
-              child: Hero(
-                  tag: "Image",
-                  child: Image.asset(FypImages.splashImage))),
+              child: Image.asset(FypImages.splashImage)),
         ),
       )
     );

@@ -18,14 +18,11 @@ class FypBoardingScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Hero(
-                tag: "Image",
-                child: FypText(
-                  text: "Find Your Routes!",
-                  fontWeight: FontWeight.bold,
-                  fontSize: 23,
-                  color: primaryColor,
-                ),
+              FypText(
+                text: "Find Your Routes!",
+                fontWeight: FontWeight.bold,
+                fontSize: 23,
+                color: primaryColor,
               ),
               SizedBox(
                 height: 10,

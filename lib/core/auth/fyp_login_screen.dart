@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:fyp/core/auth/forgot_password_screen.dart';
 import 'package:fyp/core/auth/fyp_signup_screen.dart';
 import 'package:fyp/core/bus_find/find_bus_screen.dart';
+import 'package:fyp/core/lists/bus_list_screen.dart';
+import 'package:fyp/core/lists/fav_bus_list.dart';
+import 'package:fyp/core/notifications/notification_screen.dart';
 import 'package:fyp/global_widgets/fyp_button.dart';
 import 'package:fyp/global_widgets/fyp_text.dart';
 import 'package:fyp/global_widgets/fyp_textfield.dart';
 import 'package:fyp/utils/constants.dart';
+
+import '../home/home_screen.dart';
 
 class FypLoginScreen extends StatelessWidget {
   const FypLoginScreen({super.key});
@@ -33,7 +38,7 @@ class FypLoginScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      height: 400,
+                      height: 350,
                       width: double.infinity,
                       decoration: BoxDecoration(
                         color: primaryColor,
@@ -50,7 +55,7 @@ class FypLoginScreen extends StatelessWidget {
                               text: "Login",
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
-                              fontSize: 22,
+                              fontSize: 20,
                             ),
                             SizedBox(height: 10,),
                             FypTextField(
@@ -79,7 +84,7 @@ class FypLoginScreen extends StatelessWidget {
                                 )),
                             SizedBox(height: 30,),
                             FypButton(text: "Sign In", onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> FindBusScreen()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=> HomeScreen()));
                             },)
                           ],
                         ),

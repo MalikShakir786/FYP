@@ -38,8 +38,13 @@ class FYPTheme {
 class FypImages {
   static const bgImage = "assets/images/bgImage.jpg";
   static const boardingImage = "assets/images/boardingImage.png";
-  static const bannerImage = "assets/images/bannerImage.png";
+  static const bannerImage1 = "assets/images/bannerImage1.png";
+  static const bannerImage2 = "assets/images/bannerImage2.jpg";
+  static const bannerImage3 = "assets/images/bannerImage3.jpg";
+  static const bannerImage4 = "assets/images/bannerImage4.jpg";
+  static const bannerImage5 = "assets/images/bannerImage5.jpg";
   static const splashImage = "assets/images/splashImage.png";
+  static const userAvatar = "assets/images/userAvatar.png";
 }
 
 //FYP Icons
@@ -50,5 +55,8 @@ class FypIcons{
   static const findBus = "assets/icons/findBus.png";
   static const notification = "assets/icons/notification.png";
   static const busStop = "assets/icons/busStop.png";
-  static const timeTable = "assets/icons/busStop.png";
+  static const timeTable = "assets/icons/timeTable.png";
+  static const infoIcon = "assets/icons/infoIcon.png";
+  static const busList = "assets/icons/busList.png";
+  static const favBus = "assets/icons/favBus.png";
 }

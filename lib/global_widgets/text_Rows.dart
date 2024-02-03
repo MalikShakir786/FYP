@@ -6,14 +6,20 @@ import 'fyp_text.dart';
 class textRows extends StatelessWidget {
   textRows({
     super.key,
-    required this.busNumber,
-    required this.driverName,
-    required this.driverContact,
+    required this.firstLeft,
+    required this.firstRight,
+    required this.secondLeft,
+    required this.secondRight,
+    required this.thirdLeft,
+    required this.thirdRight,
   });
 
-  String busNumber;
-  String driverName;
-  String driverContact;
+  String firstLeft;
+  String secondLeft;
+  String thirdLeft;
+  String firstRight;
+  String secondRight;
+  String thirdRight;
 
   @override
   Widget build(BuildContext context) {
@@ -24,22 +30,22 @@ class textRows extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              FypText(text: "Bus Number :",color: Colors.black,fontWeight: FontWeight.bold,),
-              FypText(text: busNumber,color: primaryColor,)
+              FypText(text: firstLeft,color: Colors.black,fontWeight: FontWeight.bold,fontSize: 12,),
+              FypText(text: firstRight,color: primaryColor,fontSize: 12,)
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              FypText(text: "Driver Name :",color: Colors.black,fontWeight: FontWeight.bold,),
-              FypText(text: driverName,color: primaryColor,)
+              FypText(text: secondLeft,color: Colors.black,fontWeight: FontWeight.bold,fontSize: 12,),
+              FypText(text: secondRight,color: primaryColor,fontSize: 12,)
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              FypText(text: "Driver Contact :",color: Colors.black,fontWeight: FontWeight.bold,),
-              FypText(text: driverContact,color: primaryColor,)
+              FypText(text: thirdLeft,color: Colors.black,fontWeight: FontWeight.bold,fontSize: 12,),
+              FypText(text: thirdRight,color: primaryColor,fontSize: 12,)
             ],
           ),
         ],

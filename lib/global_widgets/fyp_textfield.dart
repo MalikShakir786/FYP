@@ -24,7 +24,7 @@ class FypTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         FypText(text: labelText,
-        fontWeight: FontWeight.w600,fontSize: 15,),
+        fontWeight: FontWeight.w600,),
         SizedBox(height: 10,),
         TextField(
           decoration: InputDecoration(
@@ -34,7 +34,7 @@ class FypTextField extends StatelessWidget {
               color: Colors.grey
             ),
             filled: true,
-            contentPadding: EdgeInsets.symmetric(vertical: 11,horizontal: 15),
+            contentPadding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10)
             ),

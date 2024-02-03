@@ -33,7 +33,7 @@ class FypSignUpScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      height: 540,
+                      height: 500,
                       width: double.infinity,
                       decoration: BoxDecoration(
                         color: primaryColor,
@@ -50,7 +50,7 @@ class FypSignUpScreen extends StatelessWidget {
                               text: "Sign Up",
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
-                              fontSize: 22,
+                              fontSize: 20,
                             ),
                             SizedBox(height: 10,),
                             FypTextField(

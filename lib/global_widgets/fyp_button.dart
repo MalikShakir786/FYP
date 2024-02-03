@@ -31,6 +31,7 @@ class FypButton extends StatelessWidget {
             text: text,
             color: Colors.white,
             fontWeight: FontWeight.bold,
+            fontSize: 17,
           )),
     );
   }
