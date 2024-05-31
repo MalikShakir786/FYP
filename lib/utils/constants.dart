@@ -45,6 +45,8 @@ class FypImages {
   static const bannerImage5 = "assets/images/bannerImage5.jpg";
   static const splashImage = "assets/images/splashImage.png";
   static const userAvatar = "assets/images/userAvatar.png";
+  static const deskBgImage1 = "assets/images/deskBgImage1.jpg";
+  static const logoDesktop = "assets/images/logoDesktop.png";
 }
 
 //FYP Icons
@@ -59,4 +61,10 @@ class FypIcons{
   static const infoIcon = "assets/icons/infoIcon.png";
   static const busList = "assets/icons/busList.png";
   static const favBus = "assets/icons/favBus.png";
+  static const bus = "assets/icons/bus.png";
+  static const feedback = "assets/icons/feedBack.png";
+  static const users = "assets/icons/users.png";
+  static const dashBoard = "assets/icons/dashBoard.png";
+  static const menu = "assets/icons/menu.png";
+  static const cross = "assets/icons/cross.png";
 }

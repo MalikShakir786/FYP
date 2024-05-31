@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:fyp/boarding/fyp_boarding_screen.dart';
-import 'package:fyp/core/home/home_screen.dart';
+import 'package:fyp/boarding/on_boarding_screen.dart';
 import 'package:fyp/utils/constants.dart';
+import 'package:fyp/web/core/bus_info_screen/bus_info_screen.dart';
+import 'package:fyp/web/core/dashboard/dashboard_screen.dart';
+import 'auth/fyp_login_screen.dart';
+
 
 
 class FypSplashScreen extends StatefulWidget {
@@ -18,16 +21,16 @@ class _FypSplashScreenState extends State<FypSplashScreen> {
   @override
   void initState() {
     super.initState();
-    moveToMain();
+    moveToMain(context);
   }
 
-  void moveToMain() async{
+  void moveToMain(BuildContext context) async{
     Future.delayed(Duration(milliseconds: 500),(){
       isAnimate = true;
     });
 
     await Future.delayed(Duration(milliseconds: 2500),(){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> FypBoardingScreen()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> BusInfoScreen()));
     });
   }
 
@@ -35,10 +38,10 @@ class _FypSplashScreenState extends State<FypSplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: primaryColor,
+        color: Colors.white,
         child: Center(
           child: AnimatedContainer(
-            height: isAnimate? 200:100,
+            height: isAnimate? 120:80,
               duration: Duration(seconds: 1),
               curve: Curves.bounceOut,
               child: Image.asset(FypImages.splashImage)),
