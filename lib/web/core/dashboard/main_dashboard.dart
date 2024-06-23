@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class UsersScreen extends StatelessWidget {
-  const UsersScreen({super.key});
+class MainDashboard extends StatelessWidget {
+  const MainDashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.blue,
+        color: Colors.purple,
       ),
     );
   }

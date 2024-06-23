@@ -2,10 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/mobile/global_widgets/fyp_text.dart';
 import 'package:fyp/web/core/bus_info_screen/bus_info_screen.dart';
+import 'package:fyp/web/core/dashboard/main_dashboard.dart';
 import 'package:fyp/web/core/feedback/feedback_screen.dart';
 import 'package:fyp/web/core/timetable/timetable_screen.dart';
-import 'package:fyp/web/core/users/users_screen.dart';
 import '../../../utils/constants.dart';
+import '../users/user_screens/user_screen.dart';
 
 class MobileDashBoard extends StatefulWidget {
   MobileDashBoard({super.key});
@@ -92,7 +93,7 @@ class _MobileDashBoardState extends State<MobileDashBoard> {
           children: [
             Padding(
               padding: EdgeInsets.only(top: 80),
-              child: selectedIndex == 0? BusInfoScreen():
+              child: selectedIndex == 0? MainDashboard():
               selectedIndex == 1? BusInfoScreen():
               selectedIndex == 2? TimeTableScreen():
               selectedIndex == 3? FeedBackScreen(): UsersScreen(),

@@ -17,6 +17,7 @@ class FypSplashScreen extends StatefulWidget {
 class _FypSplashScreenState extends State<FypSplashScreen> {
 
   bool isAnimate = false;
+  String user = "admin";
 
   @override
   void initState() {
@@ -30,7 +31,12 @@ class _FypSplashScreenState extends State<FypSplashScreen> {
     });
 
     await Future.delayed(Duration(milliseconds: 2500),(){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> BusInfoScreen()));
+      if(user == "student"){
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> FypOnBoardingScreen()));
+      }else{
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> FypLoginScreen()));
+      }
+
     });
   }
 

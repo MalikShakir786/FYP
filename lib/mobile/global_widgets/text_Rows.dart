@@ -10,16 +10,16 @@ class textRows extends StatelessWidget {
     required this.firstRight,
     required this.secondLeft,
     required this.secondRight,
-    required this.thirdLeft,
-    required this.thirdRight,
+    this.thirdLeft,
+    this.thirdRight,
   });
 
   String firstLeft;
   String secondLeft;
-  String thirdLeft;
+  String? thirdLeft;
   String firstRight;
   String secondRight;
-  String thirdRight;
+  String? thirdRight;
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +41,12 @@ class textRows extends StatelessWidget {
               FypText(text: secondRight,color: primaryColor,fontSize: 12,)
             ],
           ),
+          if(thirdLeft != null && thirdRight != null)
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              FypText(text: thirdLeft,color: Colors.black,fontWeight: FontWeight.bold,fontSize: 12,),
-              FypText(text: thirdRight,color: primaryColor,fontSize: 12,)
+              FypText(text: thirdLeft??"",color: Colors.black,fontWeight: FontWeight.bold,fontSize: 12,),
+              FypText(text: thirdRight??"",color: primaryColor,fontSize: 12,)
             ],
           ),
         ],

@@ -8,18 +8,20 @@ class FypButton extends StatelessWidget {
     super.key,
     required this.text,
     this.buttonColor = Colors.black,
-    required this.onTap,
+    this.onTap,
     this.isDisabled = false,
     this.buttonWidth = 230,
     this.buttonHeight = 45,
+    this.isLoading = false,
   });
 
   final String text;
   final Color buttonColor;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final bool isDisabled;
   final double buttonWidth;
   final double buttonHeight;
+  bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,12 @@ class FypButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(50),
             )
           ),
-          child: FypText(
+          child: isLoading?
+          SizedBox(
+              height: 20,
+              width: 20,
+              child: CircularProgressIndicator(color: Colors.white,))
+          :FypText(
             text: text,
             color: Colors.white,
             fontWeight: FontWeight.bold,

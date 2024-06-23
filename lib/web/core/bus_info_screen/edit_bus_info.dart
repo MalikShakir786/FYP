@@ -1,30 +1,64 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:fyp/mobile/global_widgets/dropdown_field.dart';
-import 'package:fyp/mobile/global_widgets/fyp_button.dart';
-import 'package:fyp/mobile/global_widgets/fyp_text.dart';
-import 'package:fyp/utils/constants.dart';
+import 'package:provider/provider.dart';
+import '../../../auth/auth_provider/auth_provider.dart';
+import '../../../mobile/global_widgets/fyp_button.dart';
+import '../../../mobile/global_widgets/fyp_text.dart';
+import '../../../mobile/global_widgets/fyp_textfield.dart';
+import '../../../utils/constants.dart';
 
-class EditBusInfo extends StatelessWidget {
+class EditBusInfo extends StatefulWidget {
   EditBusInfo({super.key});
 
-  final List<String> busNumbers = List.generate(20, (index)=>index.toString());
-  final List<String> busTypes = ["Combine","Boys","Girls"];
-  final List<String> timings = ["1:30","3:00","4:30"];
-  final List<String> routes = [
-    'Karachi',
-    'Lahore',
-    'Faisalabad',
-    'Rawalpindi',
-    'Multan',
-    'Gujranwala',
-    'Hyderabad',
-    'Peshawar',
-    'Quetta',
-    'Islamabad',
-    'Sargodha',
-  ];
+  @override
+  _EditBusInfoState createState() => _EditBusInfoState();
+}
+
+class _EditBusInfoState extends State<EditBusInfo> {
+
+  String? errorBusNumber;
+  String? errorBusPlateNumber;
+  String? errorDriverName;
+  String? errorDriverContactNo;
+  String? errorConductorName;
+  String? errorConductorContactNo;
+
+  final contactPattern = RegExp(r'^03\d{2}-\d{7}$');
+
+  void _validateAndUpdate() {
+    setState(() {
+      errorBusNumber = context.read<AuthProvider>().confirmPasswordController.text.isEmpty
+          ? "Please enter bus number"
+          : null;
+      errorBusPlateNumber = context.read<AuthProvider>().confirmPasswordController.text.isEmpty
+          ? "Please enter bus plate number"
+          : null;
+      errorDriverName = context.read<AuthProvider>().confirmPasswordController.text.isEmpty
+          ? "Please enter driver name"
+          : null;
+      errorDriverContactNo = context.read<AuthProvider>().confirmPasswordController.text.isEmpty
+          ? "Please enter driver contact number"
+          : (!contactPattern.hasMatch(context.read<AuthProvider>().confirmPasswordController.text)
+          ? "Invalid contact format (e.g., 0300-0000000)"
+          : null);
+      errorConductorName = context.read<AuthProvider>().confirmPasswordController.text.isEmpty
+          ? "Please enter conductor name"
+          : null;
+      errorConductorContactNo = context.read<AuthProvider>().confirmPasswordController.text.isEmpty
+          ? "Please enter conductor contact number"
+          : (!contactPattern.hasMatch(context.read<AuthProvider>().confirmPasswordController.text)
+          ? "Invalid contact format (e.g., 0300-0000000)"
+          : null);
+    });
+
+    if (errorBusNumber == null &&
+        errorBusPlateNumber == null &&
+        errorDriverName == null &&
+        errorDriverContactNo == null &&
+        errorConductorName == null &&
+        errorConductorContactNo == null) {
+      Navigator.pop(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,40 +67,105 @@ class EditBusInfo extends StatelessWidget {
         contentPadding: EdgeInsets.all(20),
         backgroundColor: Colors.white,
         content: Container(
-          width: MediaQuery.of(context).size.width*0.35,
-          height: 430,
+          height: 350,
+          width: MediaQuery.of(context).size.width * 0.6,
           child: Column(
             children: [
-              Align(alignment: Alignment.topRight,child: GestureDetector(
-                  onTap: (){
+              Align(
+                alignment: Alignment.topRight,
+                child: GestureDetector(
+                  onTap: () {
                     Navigator.pop(context);
                   },
-                  child: Image.asset(FypIcons.cross,color: Colors.black,width: 15,))),
-              Align(alignment: Alignment.center,child: FypText(text: "Edit Bus Info",color: primaryColor,fontSize: 16,fontWeight: FontWeight.bold,)),
-              SizedBox(height: 10,),
+                  child: Image.asset(
+                    FypIcons.cross,
+                    color: Colors.black,
+                    width: 15,
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: FypText(
+                  text: "Edit Bus Info",
+                  color: primaryColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      DropDownMenu(labelColor: Colors.black,title: "Bus No.", itemList: busNumbers),
-                      SizedBox(height: 10,),
-                      DropDownMenu(labelColor: Colors.black,title: "Bus No.", itemList: busTypes),
-                      SizedBox(height: 10,),
-                      DropDownMenu(labelColor: Colors.black,title: "Bus No.", itemList: timings),
-                      SizedBox(height: 10,),
-                      DropDownMenu(labelColor: Colors.black,title: "Bus No.", itemList: routes),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              children: [
+                                FypTextField(
+                                  controller: context.read<AuthProvider>().confirmPasswordController,
+                                  labelText: "Bus Number",
+                                  labelColor: Colors.black,
+                                  errorText: errorBusNumber,
+                                ),
+                                SizedBox(height: 10),
+                                FypTextField(
+                                  controller: context.read<AuthProvider>().confirmPasswordController,
+                                  labelText: "Bus Plate Number",
+                                  labelColor: Colors.black,
+                                  errorText: errorBusPlateNumber,
+                                ),
+                                SizedBox(height: 10),
+                                FypTextField(
+                                  controller: context.read<AuthProvider>().confirmPasswordController,
+                                  labelText: "Driver Name",
+                                  labelColor: Colors.black,
+                                  errorText: errorDriverName,
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: 20),
+                          Expanded(
+                            child: Column(
+                              children: [
+                                FypTextField(
+                                  controller: context.read<AuthProvider>().confirmPasswordController,
+                                  labelText: "Driver Contact No.",
+                                  labelColor: Colors.black,
+                                  errorText: errorDriverContactNo,
+                                ),
+                                SizedBox(height: 10),
+                                FypTextField(
+                                  controller: context.read<AuthProvider>().confirmPasswordController,
+                                  labelText: "Conductor Name",
+                                  labelColor: Colors.black,
+                                  errorText: errorConductorName,
+                                ),
+                                SizedBox(height: 10),
+                                FypTextField(
+                                  controller: context.read<AuthProvider>().confirmPasswordController,
+                                  labelText: "Conductor Contact No.",
+                                  labelColor: Colors.black,
+                                  errorText: errorConductorContactNo,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
               ),
-              SizedBox(height: 20,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  FypButton(buttonColor: primaryColor,buttonWidth: MediaQuery.of(context).size.width*0.1,text: "Save", onTap: (){}),
-                  FypButton(buttonWidth: MediaQuery.of(context).size.width*0.1,text: "Next", onTap: (){}),
-                ],
-              )
+              SizedBox(height: 20),
+              FypButton(
+                buttonColor: primaryColor,
+                buttonWidth: MediaQuery.of(context).size.width * 0.1,
+                text: "Update",
+                onTap: _validateAndUpdate,
+              ),
             ],
           ),
         ),

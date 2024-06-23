@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fyp/mobile/global_widgets/fyp_text.dart';
 import 'package:fyp/web/core/bus_info_screen/bus_info_screen.dart';
+import 'package:fyp/web/core/dashboard/main_dashboard.dart';
 import 'package:fyp/web/core/feedback/feedback_screen.dart';
 import 'package:fyp/web/core/timetable/timetable_screen.dart';
-import 'package:fyp/web/core/users/users_screen.dart';
 import '../../../utils/constants.dart';
+import '../users/user_screens/user_screen.dart';
 
 class WebDashBoard extends StatefulWidget {
   WebDashBoard({super.key});
@@ -59,12 +60,14 @@ class _WebDashBoardState extends State<WebDashBoard> {
                   padding: const EdgeInsets.only(top: 80),
                   child: Align(
                     alignment: Alignment.topCenter,
-                    child: selectedIndex == 1
+                    child: selectedIndex == 0
+                        ? MainDashboard()
+                        : selectedIndex == 1
                         ? BusInfoScreen()
                         : selectedIndex == 2
-                            ? FeedBackScreen()
+                            ? TimeTableScreen()
                             : selectedIndex == 3
-                                ? TimeTableScreen()
+                                ? FeedBackScreen()
                                 : UsersScreen(),
                   ),
                 ),

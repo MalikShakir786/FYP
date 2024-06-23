@@ -1,10 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fyp/mobile/global_widgets/dropdown_field.dart';
+import 'package:provider/provider.dart';
+import '../mobile/global_widgets/dropdown_field.dart';
 import '../mobile/global_widgets/fyp_button.dart';
 import '../mobile/global_widgets/fyp_text.dart';
 import '../mobile/global_widgets/fyp_textfield.dart';
 import '../utils/constants.dart';
+import 'auth_provider/auth_provider.dart';
 import 'fyp_login_screen.dart';
 
 class FypSignUpScreen extends StatefulWidget {
@@ -17,10 +18,49 @@ class FypSignUpScreen extends StatefulWidget {
 class _FypSignUpScreenState extends State<FypSignUpScreen> {
   List<String> userTypes = ["Admin", "Student"];
 
-  String selectedUserType = "Admin";
+  String? errorName;
+  String? errorEmail;
+  String? errorPassword;
+  String? errorConfirm;
+
+  void _validateAndSignUp(BuildContext context) {
+    var authProvider = context.read<AuthProvider>();
+
+    final emailRegex = RegExp(r'^[^@]+@uog\.edu\.pk$');
+    setState(() {
+      errorName = authProvider.sUserNameController.text.isEmpty
+          ? "Please enter username"
+          : null;
+      errorEmail = authProvider.sEmailController.text.isEmpty
+          ? "Please enter email"
+          : (!emailRegex.hasMatch(authProvider.sEmailController.text)
+              ? "Invalid email format"
+              : null);
+      errorPassword = authProvider.sPasswordController.text.isEmpty
+          ? "Please enter password"
+          : (authProvider.sPasswordController.text.length < 6
+              ? "Password must be at least 6 characters long"
+              : null);
+      errorConfirm = authProvider.sConfirmPasswordController.text.isEmpty
+          ? "Please enter confirm password"
+          : (authProvider.sPasswordController.text !=
+                  authProvider.sConfirmPasswordController.text
+              ? "Passwords do not match"
+              : null);
+    });
+
+    if (errorName == null &&
+        errorEmail == null &&
+        errorPassword == null &&
+        errorConfirm == null) {
+      authProvider.signup(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    var authProvider = context.read<AuthProvider>();
+
     final currentWidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
@@ -43,7 +83,6 @@ class _FypSignUpScreenState extends State<FypSignUpScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      height: 460,
                       width: currentWidth > 420 ? 400 : double.infinity,
                       decoration: BoxDecoration(
                         color: primaryColor.withOpacity(0.5),
@@ -67,32 +106,54 @@ class _FypSignUpScreenState extends State<FypSignUpScreen> {
                               height: 10,
                             ),
                             FypTextField(
+                              controller: authProvider.sUserNameController,
+                              labelText: "Username",
+                              prefixIcon: Icon(
+                                Icons.person,
+                                color: primaryColor,
+                              ),
+                              hintText: "Username",
+                              errorText: errorName,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            FypTextField(
+                              controller: authProvider.sEmailController,
                               labelText: "UOG Email",
                               prefixIcon: Icon(
                                 Icons.email,
                                 color: primaryColor,
                               ),
                               suffixText: "@uog.edu.pk",
+                              hintText: "Email",
+                              errorText: errorEmail,
                             ),
                             SizedBox(
                               height: 10,
                             ),
                             FypTextField(
+                              controller: authProvider.sPasswordController,
                               labelText: "Password",
                               prefixIcon: Icon(
                                 Icons.lock,
                                 color: primaryColor,
                               ),
+                              hintText: "Password",
                               suffixIcon: Icon(
                                 Icons.remove_red_eye,
                                 color: primaryColor,
                               ),
+                              errorText: errorPassword,
                             ),
                             SizedBox(
                               height: 10,
                             ),
                             FypTextField(
+                              controller:
+                                  authProvider.sConfirmPasswordController,
                               labelText: "Confirm Password",
+                              hintText: "Confirm Password",
                               prefixIcon: Icon(
                                 Icons.lock,
                                 color: primaryColor,
@@ -101,26 +162,21 @@ class _FypSignUpScreenState extends State<FypSignUpScreen> {
                                 Icons.remove_red_eye,
                                 color: primaryColor,
                               ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            SizedBox(
-                              child: DropDownMenu(
-                                title: "User Type",
-                                itemList: userTypes,
-                                prefixIcon: Icon(
-                                  Icons.person,
-                                  color: primaryColor,
-                                ),
-                              ),
+                              errorText: errorConfirm,
                             ),
                             SizedBox(
                               height: 30,
                             ),
                             FypButton(
                               text: "Sign Up",
-                              onTap: () {},
+                              isLoading:
+                                  context.watch<AuthProvider>().isLoading,
+                              onTap: () {
+                                _validateAndSignUp(context);
+                              },
+                            ),
+                            SizedBox(
+                              height: 10,
                             )
                           ],
                         ),

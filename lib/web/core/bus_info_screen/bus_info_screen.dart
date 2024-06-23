@@ -4,8 +4,10 @@ import 'package:fyp/mobile/global_widgets/fyp_button.dart';
 import 'package:fyp/mobile/global_widgets/fyp_textfield.dart';
 import 'package:fyp/utils/constants.dart';
 import 'package:fyp/web/core/bus_info_screen/add_bus_info.dart';
+import '../../../auth/auth_provider/auth_provider.dart';
 import '../../../mobile/global_widgets/fyp_text.dart';
 import 'edit_bus_info.dart';
+import 'package:provider/provider.dart';
 
 class BusInfoScreen extends StatelessWidget {
   BusInfoScreen({super.key});
@@ -65,6 +67,7 @@ class BusInfoScreen extends StatelessWidget {
                                     SizedBox(width: 10),
                                     Expanded(
                                       child: FypTextField(
+                                        controller: context.read<AuthProvider>().confirmPasswordController,
                                         isLabelShow: false,
                                         fieldHeight: 30,
                                       ),
@@ -84,6 +87,7 @@ class BusInfoScreen extends StatelessWidget {
                                     SizedBox(width: 10),
                                     Expanded(
                                       child: FypTextField(
+                                        controller: context.read<AuthProvider>().confirmPasswordController,
                                         isLabelShow: false,
                                         fieldHeight: 30,
                                       ),
@@ -118,6 +122,7 @@ class BusInfoScreen extends StatelessWidget {
                                       Container(
                                           width: currentWidth * 0.2,
                                           child: FypTextField(
+                                            controller: context.read<AuthProvider>().confirmPasswordController,
                                             isLabelShow: false,
                                             fieldHeight: 30,
                                           )),
@@ -137,6 +142,7 @@ class BusInfoScreen extends StatelessWidget {
                                       Container(
                                           width: currentWidth * 0.2,
                                           child: FypTextField(
+                                            controller: context.read<AuthProvider>().confirmPasswordController,
                                             isLabelShow: false,
                                             fieldHeight: 30,
                                           )),

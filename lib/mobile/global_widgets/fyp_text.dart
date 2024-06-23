@@ -12,6 +12,7 @@ class FypText extends StatelessWidget {
     this.fontStyle = FontStyle.normal,
     this.textDecoration = TextDecoration.none,
     this.decorationColor = Colors.white,
+    this.overflow
   });
 
   String text;
@@ -23,6 +24,7 @@ class FypText extends StatelessWidget {
   FontStyle fontStyle;
   TextDecoration textDecoration;
   Color decorationColor;
+  TextOverflow? overflow;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,7 @@ class FypText extends StatelessWidget {
         fontStyle: fontStyle,
         decoration: textDecoration,
         decorationColor: decorationColor,
+        overflow: overflow
       ),
     );
   }
