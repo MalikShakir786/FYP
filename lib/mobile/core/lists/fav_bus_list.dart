@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:fyp/boarding/bus_provider.dart';
-import 'package:fyp/mobile/global_widgets/dropdown_field.dart';
-
-import '../../../utils/constants.dart';
-import '../../global_widgets/bus_detail_container.dart';
-import '../../global_widgets/fyp_navbar.dart';
-import '../../global_widgets/fyp_search_bar.dart';
 import 'package:provider/provider.dart';
+
+import '../../../global/global_providers/bus_provider.dart';
+import '../../../global/global_widgets/bus_detail_container.dart';
+import '../../../global/global_widgets/dropdown_field.dart';
+import '../../../global/global_widgets/fyp_navbar.dart';
+import '../../../utils/constants.dart';
 
 class FavBusList extends StatelessWidget {
   const FavBusList({super.key});

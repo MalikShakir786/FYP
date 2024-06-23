@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/web/core/dashboard/dashboard_screen.dart';
-import '../mobile/core/home/home_screen.dart';
-import '../mobile/global_widgets/fyp_button.dart';
-import '../mobile/global_widgets/fyp_text.dart';
-import '../mobile/global_widgets/fyp_textfield.dart';
+import '../global/global_providers/auth_provider.dart';
+import '../global/global_widgets/fyp_button.dart';
+import '../global/global_widgets/fyp_text.dart';
+import '../global/global_widgets/fyp_textfield.dart';
+import '../mobile/core/home_screen.dart';
 import '../utils/constants.dart';
-import 'auth_provider/auth_provider.dart';
 import 'forgot_password_screen.dart';
 import 'fyp_signup_screen.dart';
 import 'package:provider/provider.dart';

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:fyp/mobile/global_widgets/fyp_text.dart';
 import 'package:fyp/utils/constants.dart';
 import 'package:provider/provider.dart';
-
-import '../../../boarding/bus_provider.dart';
-import '../../global_widgets/dropdown_field.dart';
-import '../../global_widgets/fyp_button.dart';
-import 'find_bus_provider/find_bus_provider.dart';
+import '../../../global/global_providers/bus_provider.dart';
+import '../../../global/global_providers/find_bus_provider.dart';
+import '../../../global/global_widgets/dropdown_field.dart';
+import '../../../global/global_widgets/fyp_button.dart';
+import '../../../global/global_widgets/fyp_text.dart';
 import 'find_bus_widgets/recent_searches.dart';
 import 'finded_bus_screen.dart';
 
@@ -30,6 +29,7 @@ class _FindBusScreenState extends State<FindBusScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<FindBusProvider>().getSearches(context);
+      print("navigate");
     });
   }
 

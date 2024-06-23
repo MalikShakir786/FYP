@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fyp/web/global_widgets/confirmation_alert.dart';
-
-import '../../../../mobile/global_widgets/fyp_text.dart';
+import '../../../../global/global_widgets/confirmation_alert.dart';
+import '../../../../global/global_widgets/fyp_text.dart';
 import '../../../../utils/constants.dart';
 
 class UserCard extends StatefulWidget {

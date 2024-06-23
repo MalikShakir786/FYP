@@ -1,42 +1,45 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fyp/auth/verify_otp.dart';
+import 'package:provider/provider.dart';
+import '../../utils/constants.dart';
 import '../global/global_providers/auth_provider.dart';
 import '../global/global_widgets/fyp_button.dart';
 import '../global/global_widgets/fyp_text.dart';
 import '../global/global_widgets/fyp_textfield.dart';
-import '../utils/constants.dart';
-import 'package:provider/provider.dart';
 
 
-
-class ForgotPasswordScreen extends StatefulWidget {
-  const ForgotPasswordScreen({super.key});
+class UpdatePassword extends StatefulWidget {
+  UpdatePassword({super.key});
 
   @override
-  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
+  State<UpdatePassword> createState() => _UpdatePasswordState();
 }
 
-class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+class _UpdatePasswordState extends State<UpdatePassword> {
 
-  String? errorForget;
+  String? errorPassword;
+  String? errorConfirm;
 
-  void _validateAndGetOtp(BuildContext context) async{
+  void _validateAndUpdate(BuildContext context) {
     var authProvider = context.read<AuthProvider>();
 
-    final emailRegex = RegExp(r'^[^@]+@uog\.edu\.pk$');
     setState(() {
-      errorForget = authProvider.fEmailController.text.isEmpty
-          ? "Please enter email"
-          : (!emailRegex.hasMatch(authProvider.fEmailController.text)
-          ? "Invalid email format"
+      errorPassword = authProvider.uPasswordController.text.isEmpty
+          ? "Please enter password"
+          : (authProvider.uPasswordController.text.length < 6
+          ? "Password must be at least 6 characters long"
+          : null);
+      errorConfirm = authProvider.uConfirmPasswordController.text.isEmpty
+          ? "Please enter confirm password"
+          : (authProvider.uPasswordController.text !=
+          authProvider.uConfirmPasswordController.text
+          ? "Passwords do not match"
           : null);
     });
 
-    if (errorForget == null) {
-      bool isNavigate = await authProvider.forget(context);
-      if(isNavigate){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> VerifyOTPScreen()));
-      }
+    if (errorConfirm == null &&
+        errorPassword == null) {
+      authProvider.updatePassword(context);
     }
   }
 
@@ -66,7 +69,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     Container(
                       width: currentWidth>420 ? 400: double.infinity,
                       decoration: BoxDecoration(
-                        color: primaryColor.withOpacity(0.4),
+                        color: primaryColor.withOpacity(0.5),
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: Padding(
@@ -77,27 +80,34 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               height: 10,
                             ),
                             FypText(
-                              text: "Forgotten Password",
+                              text: "Update Password",
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
-                              fontSize: 22,
+                              fontSize: 20,
                             ),
                             SizedBox(height: 20,),
                             FypTextField(
-                              controller: context.read<AuthProvider>().fEmailController,
-                              labelText: "UOG Email",
-                              prefixIcon: Icon(Icons.email,color: primaryColor,),
-                              suffixText: "@uog.edu.pk",
-                              errorText: errorForget,
+                              controller: context.read<AuthProvider>().uPasswordController,
+                              labelText: "New Password",
+                              hintText: "New Password",
+                              prefixIcon: Icon(Icons.lock,color: primaryColor,),
+                              errorText: errorPassword,
+                            ),
+                            SizedBox(height: 10,),
+                            FypTextField(
+                              controller: context.read<AuthProvider>().uConfirmPasswordController,
+                              labelText: "Confirm Password",
+                              hintText: "Confirm Password",
+                              prefixIcon: Icon(Icons.lock,color: primaryColor,),
+                              errorText: errorConfirm,
                             ),
                             SizedBox(height: 30,),
                             FypButton(
                               isLoading: context.watch<AuthProvider>().isLoading,
-                              text: "Send Code", onTap: (){
-                              context.read<AuthProvider>().setUpdateEmail(context.read<AuthProvider>().fEmailController.text.trim().toString());
-                              _validateAndGetOtp(context);
+                              text: "Update", onTap: (){
+                              _validateAndUpdate(context);
                             },),
-                            SizedBox(height: 20,),
+                            SizedBox(height: 10,),
                             GestureDetector(
                               onTap: (){
                                 Navigator.pop(context);

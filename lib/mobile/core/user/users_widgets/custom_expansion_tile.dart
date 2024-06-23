@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../utils/constants.dart';
-import '../../../global_widgets/fyp_text.dart';
+import '../../../../global/global_widgets/fyp_text.dart';
 
 class CustomExpansionTile extends StatelessWidget {
   final int index;

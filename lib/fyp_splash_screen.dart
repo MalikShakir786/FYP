@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fyp/boarding/on_boarding_screen.dart';
 import 'package:fyp/utils/constants.dart';
-import 'package:fyp/web/core/bus_info_screen/bus_info_screen.dart';
-import 'package:fyp/web/core/dashboard/dashboard_screen.dart';
 import 'auth/fyp_login_screen.dart';
 
 

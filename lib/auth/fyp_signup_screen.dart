@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../mobile/global_widgets/dropdown_field.dart';
-import '../mobile/global_widgets/fyp_button.dart';
-import '../mobile/global_widgets/fyp_text.dart';
-import '../mobile/global_widgets/fyp_textfield.dart';
+import '../global/global_providers/auth_provider.dart';
+import '../global/global_widgets/fyp_button.dart';
+import '../global/global_widgets/fyp_text.dart';
+import '../global/global_widgets/fyp_textfield.dart';
 import '../utils/constants.dart';
-import 'auth_provider/auth_provider.dart';
 import 'fyp_login_screen.dart';
+import 'package:provider/provider.dart';
 
 class FypSignUpScreen extends StatefulWidget {
   FypSignUpScreen({super.key});

@@ -1,13 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:fyp/mobile/global_widgets/fyp_button.dart';
-import 'package:fyp/mobile/global_widgets/fyp_textfield.dart';
-import 'package:fyp/web/core/feedback/feedback_provider/feedback_provider.dart';
-import 'package:fyp/web/global_widgets/alert.dart';
-import '../../../mobile/global_widgets/fyp_text.dart';
+import '../../../global/global_providers/feedback_provider.dart';
+import '../../../global/global_widgets/feedback_container.dart';
+import '../../../global/global_widgets/fyp_text.dart';
+import '../../../global/global_widgets/fyp_textfield.dart';
 import '../../../utils/constants.dart';
-import '../../global_widgets/feedback_container.dart';
 import 'package:provider/provider.dart';
 
 class FeedBackScreen extends StatefulWidget {

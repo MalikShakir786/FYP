@@ -1,15 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import '../../../boarding/bus_provider.dart';
-import '../../../utils/constants.dart';
-import '../../global_widgets/bus_detail_container.dart';
-import '../../global_widgets/bus_small_detail_container.dart';
-import '../../global_widgets/dropdown_field.dart';
-import '../../global_widgets/fyp_navbar.dart';
-import '../../global_widgets/fyp_text.dart';
-import 'find_bus_provider/find_bus_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../../../global/global_providers/bus_provider.dart';
+import '../../../global/global_providers/find_bus_provider.dart';
+import '../../../global/global_widgets/bus_detail_container.dart';
+import '../../../global/global_widgets/dropdown_field.dart';
+import '../../../global/global_widgets/fyp_navbar.dart';
+import '../../../utils/constants.dart';
 
 class FindedBusScreen extends StatelessWidget {
   const FindedBusScreen({super.key});

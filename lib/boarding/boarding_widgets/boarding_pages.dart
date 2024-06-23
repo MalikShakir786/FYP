@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../mobile/global_widgets/fyp_text.dart';
+import '../../global/global_widgets/fyp_text.dart';
 import '../../utils/constants.dart';
 
 class BoardingPage extends StatelessWidget {

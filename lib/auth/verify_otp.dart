@@ -1,43 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:fyp/auth/verify_otp.dart';
+import 'package:fyp/auth/update_password.dart';
+import 'package:fyp/global/global_widgets/toast_message.dart';
+import 'package:provider/provider.dart';
+import '../../utils/constants.dart';
 import '../global/global_providers/auth_provider.dart';
 import '../global/global_widgets/fyp_button.dart';
 import '../global/global_widgets/fyp_text.dart';
 import '../global/global_widgets/fyp_textfield.dart';
-import '../utils/constants.dart';
-import 'package:provider/provider.dart';
 
 
 
-class ForgotPasswordScreen extends StatefulWidget {
-  const ForgotPasswordScreen({super.key});
+class VerifyOTPScreen extends StatefulWidget {
+  const VerifyOTPScreen({super.key});
 
   @override
-  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
+  State<VerifyOTPScreen> createState() => _VerifyOTPScreenState();
 }
 
-class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
 
   String? errorForget;
+  var otpController = TextEditingController();
 
-  void _validateAndGetOtp(BuildContext context) async{
+  void _validateAndNavigate(BuildContext context) {
     var authProvider = context.read<AuthProvider>();
-
-    final emailRegex = RegExp(r'^[^@]+@uog\.edu\.pk$');
     setState(() {
-      errorForget = authProvider.fEmailController.text.isEmpty
-          ? "Please enter email"
-          : (!emailRegex.hasMatch(authProvider.fEmailController.text)
-          ? "Invalid email format"
-          : null);
+      errorForget = otpController.text.isEmpty
+          ? "Please enter OTP"
+          :null;
     });
 
     if (errorForget == null) {
-      bool isNavigate = await authProvider.forget(context);
-      if(isNavigate){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> VerifyOTPScreen()));
+      if(otpController.text == context.read<AuthProvider>().otp){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> UpdatePassword()));
+        otpController.clear();
+      }else{
+        showToast("* Incorrect OTP *").show(context);
       }
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(seconds: 3), () {
+          otpController.text =
+              context.read<AuthProvider>().otp;
+    });
   }
 
   @override
@@ -77,25 +86,24 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               height: 10,
                             ),
                             FypText(
-                              text: "Forgotten Password",
+                              text: "Verify OTP",
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: 22,
                             ),
-                            SizedBox(height: 20,),
+                            SizedBox(height: 10,),
                             FypTextField(
-                              controller: context.read<AuthProvider>().fEmailController,
-                              labelText: "UOG Email",
-                              prefixIcon: Icon(Icons.email,color: primaryColor,),
-                              suffixText: "@uog.edu.pk",
+                              keyboard: TextInputType.number,
+                              controller: otpController,
+                              labelText: "OTP",
+                              hintText: "6 digits OTP",
+                              prefixIcon: Icon(Icons.password,color: primaryColor,),
                               errorText: errorForget,
                             ),
                             SizedBox(height: 30,),
-                            FypButton(
-                              isLoading: context.watch<AuthProvider>().isLoading,
-                              text: "Send Code", onTap: (){
-                              context.read<AuthProvider>().setUpdateEmail(context.read<AuthProvider>().fEmailController.text.trim().toString());
-                              _validateAndGetOtp(context);
+                            FypButton(text: "Verify", onTap: (){
+                              _validateAndNavigate(context);
+                              print(context.read<AuthProvider>().updateEmail);
                             },),
                             SizedBox(height: 20,),
                             GestureDetector(

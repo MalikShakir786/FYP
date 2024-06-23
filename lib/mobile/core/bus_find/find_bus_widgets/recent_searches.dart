@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fyp/mobile/global_widgets/fyp_text.dart';
-import 'package:fyp/utils/constants.dart';
-import '../find_bus_models/recent_searches_model.dart';
-import '../find_bus_provider/find_bus_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../global/global_providers/find_bus_provider.dart';
+import '../../../../global/global_widgets/fyp_text.dart';
+import '../../../../utils/constants.dart';
 
 class RecentSearchesWidget extends StatefulWidget {
   @override
@@ -14,7 +14,7 @@ class _RecentSearchesWidgetState extends State<RecentSearchesWidget> {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<FindBusProvider>();
-    final recents = provider.recent;
+    final recents = provider.recentSearches;
 
     return Expanded(
       child: SingleChildScrollView(
@@ -27,12 +27,12 @@ class _RecentSearchesWidgetState extends State<RecentSearchesWidget> {
                 ? Center(
               child: CircularProgressIndicator(color: primaryColor),
             )
-                : context.read<FindBusProvider>().recent!.searches!.isNotEmpty?
-                  Wrap(
+                : context.read<FindBusProvider>().recentSearches.isNotEmpty
+                ? Wrap(
               spacing: 10,
               runSpacing: 10,
               children: List.generate(
-                recents!.searches!.length,
+                recents.length,
                     (index) {
                   return Stack(
                     alignment: Alignment.centerRight,
@@ -49,12 +49,12 @@ class _RecentSearchesWidgetState extends State<RecentSearchesWidget> {
                               width: 2,
                             ),
                           ),
-                          child: FypText(text: recents!.searches![index].searchQuery, color: Colors.black),
+                          child: FypText(text: recents[index].searchQuery, color: Colors.black),
                         ),
                       ),
                       GestureDetector(
                         onTap: () async{
-                          await provider.deleteSearch(context,recents.searches![index].searchQuery.toString());
+                          await provider.deleteSearch(context,recents[index].searchQuery.toString());
                           setState(() {
                             provider.getSearches(context);
                           });
@@ -77,8 +77,8 @@ class _RecentSearchesWidgetState extends State<RecentSearchesWidget> {
                   );
                 },
               ),
-            ):
-            Center(child: FypText(text: "No recent searches",color: Colors.black,))
+            )
+                : Center(child: FypText(text: "No recent searches", color: Colors.black,))
             ,
           ],
         ),

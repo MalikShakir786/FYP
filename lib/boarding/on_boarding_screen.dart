@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fyp/boarding/boarding_widgets/boarding_pages.dart';
 import '../auth/fyp_login_screen.dart';
 import '../auth/fyp_signup_screen.dart';
-import '../mobile/global_widgets/fyp_button.dart';
+import '../global/global_widgets/fyp_button.dart';
 import '../utils/constants.dart';
 import 'boarding_widgets/dots_indicators.dart';
 
@@ -21,8 +21,6 @@ class _OnBoardingScreenState extends State<FypOnBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final currentWidth = MediaQuery.of(context).size.width;
-    final currentHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: Center(

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-
-
+import '../../../global/global_widgets/fyp_navbar.dart';
+import '../../../global/global_widgets/fyp_search_bar.dart';
+import '../../../global/global_widgets/fyp_text.dart';
+import '../../../global/global_widgets/notification_tile.dart';
 import '../../../utils/constants.dart';
-import '../../global_widgets/fyp_navbar.dart';
-import '../../global_widgets/fyp_search_bar.dart';
-import '../../global_widgets/fyp_text.dart';
-import '../../global_widgets/notification_tile.dart';
 
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({super.key});
