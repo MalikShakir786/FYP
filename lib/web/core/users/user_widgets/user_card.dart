@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:fyp/global/global_providers/auth_provider.dart';
+import 'package:fyp/global/global_providers/user_provider.dart';
 import '../../../../global/global_widgets/confirmation_alert.dart';
 import '../../../../global/global_widgets/fyp_text.dart';
 import '../../../../utils/constants.dart';
+import 'package:provider/provider.dart';
 
 class UserCard extends StatefulWidget {
   UserCard({
     super.key,
     required this.email,
     required this.name,
-    this.isAdmin = false
+    required this.userId,
+    this.isAdmin = false,
   });
 
   final String email;
   final String name;
+  final int userId;
   bool isAdmin;
 
   @override
@@ -42,7 +47,7 @@ class _UserCardState extends State<UserCard> {
                         width: 30,
                       ),
                     ),
-                    SizedBox(width: 10,),
+                    SizedBox(width: 10),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -56,7 +61,7 @@ class _UserCardState extends State<UserCard> {
                           text: widget.name,
                           color: Colors.black,
                           fontSize: 13,
-                        )
+                        ),
                       ],
                     ),
                   ],
@@ -83,9 +88,19 @@ class _UserCardState extends State<UserCard> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return ConfirmationAlert(
+                                    isLoading: context.watch<AuthProvider>().isLoading,
                                     title: "Admin?",
                                     subTitle: "Do you want to change this user type?",
-                                    onTap: (){},
+                                    onTap: () async {
+                                      await context.read<AuthProvider>().updateUser(
+                                        context,
+                                        widget.userId,
+                                        widget.name,
+                                        widget.isAdmin,
+                                      );
+                                      Navigator.pop(context);
+                                      context.read<UserProvider>().getUsers(context);
+                                    },
                                   );
                                 },
                               );
@@ -104,7 +119,7 @@ class _UserCardState extends State<UserCard> {
                             return ConfirmationAlert(
                               title: "Delete?",
                               subTitle: "Do you want to delete this user?",
-                              onTap: (){},
+                              onTap: () {},
                             );
                           },
                         );
@@ -131,7 +146,7 @@ class _UserCardState extends State<UserCard> {
                         width: 30,
                       ),
                     ),
-                    SizedBox(width: 10,),
+                    SizedBox(width: 10),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -145,7 +160,7 @@ class _UserCardState extends State<UserCard> {
                           text: widget.name,
                           color: Colors.black,
                           fontSize: 13,
-                        )
+                        ),
                       ],
                     ),
                   ],
@@ -172,7 +187,16 @@ class _UserCardState extends State<UserCard> {
                                   return ConfirmationAlert(
                                     title: "Admin?",
                                     subTitle: "Do you want to change this user type?",
-                                    onTap: (){},
+                                    onTap: () async {
+                                      await context.read<AuthProvider>().updateUser(
+                                        context,
+                                        widget.userId,
+                                        widget.name,
+                                        widget.isAdmin,
+                                      );
+                                      Navigator.pop(context);
+                                      context.read<UserProvider>().getUsers(context);
+                                    },
                                   );
                                 },
                               );
@@ -181,7 +205,7 @@ class _UserCardState extends State<UserCard> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 40,),
+                    SizedBox(height: 40),
                     GestureDetector(
                       onTap: () {
                         showDialog(
@@ -192,7 +216,7 @@ class _UserCardState extends State<UserCard> {
                             return ConfirmationAlert(
                               title: "Delete?",
                               subTitle: "Do you want to delete this user?",
-                              onTap: (){},
+                              onTap: () {},
                             );
                           },
                         );

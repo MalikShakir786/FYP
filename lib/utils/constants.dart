@@ -88,6 +88,11 @@ class EndPoints {
   static const updatePassword = "/php-api/user/updatepassword.php";
   static const changePassword = "/php-api/user/changepassword.php";
 
+  //User
+  static const getUser = "/php-api/user/read.php";
+  static const updateUser = "/php-api/user/update.php";
+  static const searchUser = "/php-api/user/search.php";
+
   //Recent Searches
   static const searches = "/php-api/search/search.php";
 
@@ -96,6 +101,13 @@ class EndPoints {
   static const deleteFeedback = "/php-api/feedback/deletefeedback.php";
   static const searchFeedback = "/php-api/feedback/searchfeedback.php";
   static const showFeedback = "/php-api/feedback/show_feedback.php";
+
+  //Timetable
+  static const searchTimetable = "/php-api/timetable/search.php";
+  static const insertTimetable = "/php-api/timetable/insert.php";
+  static const deleteTimetable = "/php-api/timetable/delete.php";
+  static const showTimetable = "/php-api/timetable/show.php";
+  static const updateTimetable = "/php-api/timetable/update.php";
 
 
   static String chatMessages(int channelId) {

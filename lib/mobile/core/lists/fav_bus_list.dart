@@ -36,10 +36,10 @@ class FavBusList extends StatelessWidget {
                       children: List.generate(6, (index) {
                         return Column(
                           children: [
-                            BusDetailContainer(
-                              starIcon:
-                                  Icon(Icons.star_rounded, color: primaryColor),
-                            ),
+                            // BusDetailContainer(
+                            //   starIcon:
+                            //       Icon(Icons.star_rounded, color: primaryColor),
+                            // ),
                             SizedBox(
                               height: 20,
                             )

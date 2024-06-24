@@ -9,11 +9,13 @@ class ConfirmationAlert extends StatelessWidget {
     required this.title,
     required this.subTitle,
     required this.onTap,
+    this.isLoading = false,
     super.key});
 
   final String title;
   final String subTitle;
   final VoidCallback onTap;
+  bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,9 @@ class ConfirmationAlert extends StatelessWidget {
                     Navigator.pop(context);
                   }),
                   SizedBox(width: 30,),
-                  FypButton(text: "Yes",buttonWidth: 100, onTap: onTap),
+                  FypButton(
+                      isLoading: isLoading,
+                      text: "Yes",buttonWidth: 100, onTap: onTap),
                 ],
               )
             ],

@@ -1,31 +1,50 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fyp/global/global_widgets/dynamic_text.dart';
 import 'package:fyp/global/global_widgets/text_Rows.dart';
 import '../../mobile/core/bus_find/bus_details_screen.dart';
 import '../../utils/constants.dart';
 import 'fyp_text.dart';
 
 class BusDetailContainer extends StatelessWidget {
+  final Icon starIcon;
+  final int busNo;
+  final String route;
+  final String type;
+  final String noPlate;
+  final String driverName;
+  final String driverContact;
+  final int id;  // Add an ID field
+
   BusDetailContainer({
     super.key,
     required this.starIcon,
+    required this.type,
+    required this.driverContact,
+    required this.driverName,
+    required this.busNo,
+    required this.noPlate,
+    required this.route,
+    required this.id,  // Initialize the ID field
   });
-
-  final Icon starIcon;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => BusDetailsScreen()));
+          context,
+          MaterialPageRoute(
+            builder: (context) => BusDetailsScreen(id: id),
+          ),
+        );
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Stack(
           children: [
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 10,vertical: 20),
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
               margin: EdgeInsets.only(top: 30), // Adjust margin to position below the number container
               width: double.infinity,
               decoration: BoxDecoration(
@@ -35,10 +54,10 @@ class BusDetailContainer extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: 10,),
+                  SizedBox(height: 10),
                   Center(
                     child: FypText(
-                      text: "Student (Combine)",
+                      text: type,
                       color: primaryColor,
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
@@ -49,9 +68,9 @@ class BusDetailContainer extends StatelessWidget {
                     firstLeft: "Bus Number :",
                     secondLeft: "Driver Name :",
                     thirdLeft: "Driver Contact :",
-                    firstRight: "GTJ - 1018",
-                    secondRight: "XYZ",
-                    thirdRight: "0383-5565151",
+                    firstRight: noPlate,
+                    secondRight: driverName,
+                    thirdRight: driverContact,
                   )
                 ],
               ),
@@ -59,23 +78,23 @@ class BusDetailContainer extends StatelessWidget {
             Align(
               alignment: Alignment.topLeft,
               child: Container(
-                  height: 60,
-                  width: 60,
-                  decoration: BoxDecoration(
-                    color: primaryColor,
-                    borderRadius: BorderRadius.circular(30),
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 5
-                    )
+                height: 60,
+                width: 60,
+                decoration: BoxDecoration(
+                  color: primaryColor,
+                  borderRadius: BorderRadius.circular(30),
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 5,
                   ),
-                  child: Center(
-                    child: FypText(
-                      text: "18",
-                      fontSize: 21,
-                      fontWeight: FontWeight.bold,
-                    ),
+                ),
+                child: Center(
+                  child: FypText(
+                    text: busNo.toString(),
+                    fontSize: 21,
+                    fontWeight: FontWeight.bold,
                   ),
+                ),
               ),
             ),
             Align(
@@ -84,17 +103,16 @@ class BusDetailContainer extends StatelessWidget {
                 height: 50,
                 width: 200,
                 decoration: BoxDecoration(
-                    color: primaryColor,
-                    borderRadius: BorderRadius.circular(30),
-                    border: Border.all(
-                        color: Colors.white,
-                        width: 5
-                    )
+                  color: primaryColor,
+                  borderRadius: BorderRadius.circular(30),
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 5,
+                  ),
                 ),
                 child: Center(
-                  child: FypText(
-                    text: "Gujrat",
-                    fontSize: 21,
+                  child: DynamicText(
+                    text: route,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -116,39 +134,6 @@ class BusDetailContainer extends StatelessWidget {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class textContainer extends StatelessWidget {
-  textContainer({
-    super.key,
-    required this.text,
-  });
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 60,
-      width: 110,
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: primaryColor,
-          width: 2,
-        ),
-      ),
-      child: Center(
-        child: FypText(
-          text: text,
-          fontSize: 15,
-          color: Colors.black,
         ),
       ),
     );

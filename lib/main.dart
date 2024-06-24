@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fyp/global/global_providers/user_provider.dart';
 import 'package:fyp/utils/constants.dart';
 import 'fyp_splash_screen.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +31,8 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => FeedBackProvider(),
+        ),ChangeNotifierProvider(
+          create: (_) => UserProvider(),
         ),
       ],
       child: Builder(

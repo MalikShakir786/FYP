@@ -126,9 +126,9 @@ class _FypLoginScreenState extends State<FypLoginScreen> {
                             FypButton(
                               isLoading: context.watch<AuthProvider>().isLoading,
                               text: "Sign In", onTap: (){
-                              // _validateAndLogIn(context);
-                              Navigator.pushReplacement(
-                                  context, MaterialPageRoute(builder: (context) => HomeScreen()));
+                              _validateAndLogIn(context);
+                              // Navigator.pushReplacement(
+                              //     context, MaterialPageRoute(builder: (context) => HomeScreen()));
                             },),
                             SizedBox(height: 10,),
                           ],

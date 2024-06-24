@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fyp/mobile/core/bus_find/finded_bus_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../global/global_providers/find_bus_provider.dart';
@@ -38,7 +39,10 @@ class _RecentSearchesWidgetState extends State<RecentSearchesWidget> {
                     alignment: Alignment.centerRight,
                     children: [
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          context.read<FindBusProvider>().destinationController.text = recents[index].searchQuery;
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> FindedBusScreen()));
+                        },
                         child: Container(
                           height: 30,
                           padding: const EdgeInsets.only(top: 0, bottom: 0, left: 10, right: 26),

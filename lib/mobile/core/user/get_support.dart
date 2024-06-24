@@ -66,6 +66,7 @@ class _GetSupportState extends State<GetSupport> {
                 child: Column(
                   children: [
                     FypTextField(
+                      isDisable: true,
                       controller: context.read<FeedBackProvider>().fEmailController,
                       labelText: "Email",
                       labelColor: Colors.black,

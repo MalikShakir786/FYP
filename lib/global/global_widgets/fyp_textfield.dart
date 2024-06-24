@@ -20,6 +20,7 @@ class FypTextField extends StatelessWidget {
     this.fillColor = Colors.white,
     this.onChange,
     this.maxLines = 1,
+    this.isDisable = false,
   }) : super(key: key);
 
   final String labelText;
@@ -38,6 +39,7 @@ class FypTextField extends StatelessWidget {
   final Color fillColor;
   final Function(String)? onChange;
   final int maxLines;
+  final bool isDisable;
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +64,7 @@ class FypTextField extends StatelessWidget {
         SizedBox(
           height: calculatedHeight,
           child: TextField(
+            enabled: !isDisable,
             maxLines: maxLines,
             onChanged: onChange,
             maxLength: maxLength,

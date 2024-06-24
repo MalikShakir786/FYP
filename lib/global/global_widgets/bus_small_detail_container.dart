@@ -16,8 +16,8 @@ class BusSmallDetailContainer extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: GestureDetector(
         onTap: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => BusDetailsScreen()));
+          // Navigator.push(
+              // context, MaterialPageRoute(builder: (context) => BusDetailsScreen()));
         },
         child: Stack(
           children: [

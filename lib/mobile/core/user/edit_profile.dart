@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:fyp/global/global_providers/auth_provider.dart';
 import 'package:fyp/utils/constants.dart';
 
 import '../../../global/global_widgets/fyp_button.dart';
 import '../../../global/global_widgets/fyp_text.dart';
 import '../../../global/global_widgets/fyp_textfield.dart';
 import 'change_password.dart';
+import 'package:provider/provider.dart';
 
 class EditProfile extends StatefulWidget {
  EditProfile({super.key});
@@ -14,15 +16,12 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
- var nameController = TextEditingController();
-
- var emailController = TextEditingController();
 
  bool isButtonDisabled = true;
 
  void _updateButtonState() {
    setState(() {
-     isButtonDisabled = nameController.text.isEmpty && emailController.text.isEmpty;
+     isButtonDisabled = context.read<AuthProvider>().uUserController.text.isEmpty && context.read<AuthProvider>().uEmailController.text.isEmpty;
    });
  }
 
@@ -65,14 +64,15 @@ class _EditProfileState extends State<EditProfile> {
                 onChange: (value)=> _updateButtonState(),
                 labelText: "Username",
                 labelColor: Colors.black,
-                controller: nameController,
+                controller: context.read<AuthProvider>().uUserController,
               ),
               SizedBox(height: 10,),
               FypTextField(
+                isDisable: true,
                 onChange: (value) => _updateButtonState(),
                 labelText: "Email",
                 labelColor: Colors.black,
-                controller: emailController,
+                controller: context.read<AuthProvider>().uEmailController,
               ),
               SizedBox(height: 10,),
               Align(
@@ -90,8 +90,14 @@ class _EditProfileState extends State<EditProfile> {
               ),
               SizedBox(height: 30,),
               FypButton(text: "Update",
+                  isLoading: context.watch<AuthProvider>().isLoading,
                   isDisabled: isButtonDisabled,
-                  onTap: (){})
+                  onTap: () async{
+                 bool isPop = await context.read<AuthProvider>().updateUser(context,context.read<AuthProvider>().userData!.userId,context.read<AuthProvider>().uUserController.text,false,);
+                 if(isPop){
+                   Navigator.pop(context);
+                 }
+                  })
             ],
           ),
         ),

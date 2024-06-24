@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fyp/global/global_models/user_list_model.dart';
 import 'package:fyp/global/global_widgets/toast_message.dart';
 
 import '../../global/global_models/error_model.dart';
@@ -101,6 +102,8 @@ class AuthProvider extends ChangeNotifier {
     lPasswordController.clear();
   }
 
+  User? userData;
+
   Future<bool> login(
     BuildContext context,
   ) async {
@@ -129,6 +132,8 @@ class AuthProvider extends ChangeNotifier {
 
     if (response.statusCode == 200) {
       clearFields();
+      var result = UserListModel.fromJson(json.decode(response.body));
+      userData = result.data;
       return true;
     } else {
       var errorModel = ErrorModel.fromJson(json.decode(response.body));
@@ -246,7 +251,7 @@ class AuthProvider extends ChangeNotifier {
 
 
     final body = {
-      "user_id": "3",
+      "user_id": userData!.userId,
       "current_password": cCurrentPasswordController.text.trim(),
       "new_password": cNewPasswordController.text.trim(),
     };
@@ -267,4 +272,48 @@ class AuthProvider extends ChangeNotifier {
       showToast(errorModel.message).show(context);
     }
   }
+
+  //Update User
+
+  var uEmailController  = TextEditingController();
+  var uUserController  = TextEditingController();
+
+  Future<bool> updateUser(BuildContext context, int userId, String userName, bool isAdmin) async {
+    var url = Uri.https(
+      Constants.baseUrl,
+      EndPoints.updateUser,
+    );
+    print(url.toString());
+
+    final Map<String, String> headers = {'Content-Type': 'application/json'};
+
+    // Determine the user type based on the isAdmin flag
+    String updatedUserType = isAdmin ? 'student' : 'admin';
+
+    final body = {
+      "user_id": userId,
+      "user_name": userName,
+      "user_type": updatedUserType,
+    };
+    print(body);
+
+    setIsLoading(true);
+    var response = await http.put(
+      url,
+      headers: headers,
+      body: json.encode(body),
+    );
+    setIsLoading(false);
+
+    if (response.statusCode == 200) {
+      showToast("Updated successfully!").show(context);
+      userData!.userName = userName;
+      return true;
+    } else {
+      var errorModel = ErrorModel.fromJson(json.decode(response.body));
+      showToast(errorModel.message).show(context);
+      return false;
+    }
+  }
+
 }

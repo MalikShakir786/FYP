@@ -4,21 +4,21 @@ import 'fyp_text.dart';
 import 'package:searchfield/searchfield.dart';
 
 class DropDownField extends StatefulWidget {
-  DropDownField(
-      {Key? key,
-        required this.itemList,
-        this.labelText,
-        required this.controller,
-        this.errorText,
-        this.suffixIcon,
-        this.prefixIcon,
-        this.hintText = "",
-        this.fillColor = Colors.white,
-        this.labelColor = Colors.white,
-        this.initialValue,
-        this.fieldHeight = 40,
-      })
-      : super(key: key);
+  DropDownField({
+    Key? key,
+    required this.itemList,
+    this.labelText,
+    required this.controller,
+    this.errorText,
+    this.suffixIcon,
+    this.prefixIcon,
+    this.hintText = "",
+    this.fillColor = Colors.white,
+    this.labelColor = Colors.white,
+    this.initialValue,
+    this.fieldHeight = 40,
+    this.onChange,
+  }) : super(key: key);
 
   final List<String> itemList;
   final String? labelText;
@@ -31,6 +31,7 @@ class DropDownField extends StatefulWidget {
   final Color labelColor;
   final String? initialValue;
   final double fieldHeight;
+  final Function(String)? onChange; // Updated the type of onChange to accept a String argument
 
   @override
   _DropDownFieldState createState() => _DropDownFieldState();
@@ -52,7 +53,7 @@ class _DropDownFieldState extends State<DropDownField> {
         SizedBox(
           height: widget.errorText != null ? widget.fieldHeight + 25 : widget.fieldHeight,
           child: SearchField(
-            onTapOutside: (value){
+            onTapOutside: (value) {
               FocusScope.of(context).unfocus();
             },
             initialValue: widget.initialValue != null
@@ -101,6 +102,10 @@ class _DropDownFieldState extends State<DropDownField> {
             ),
             onSuggestionTap: (SearchFieldListItem<String> x) {
               FocusScope.of(context).unfocus();
+              widget.controller.text = x.item!;
+              if (widget.onChange != null) {
+                widget.onChange!(x.item!);
+              }
             },
             suggestions: widget.itemList
                 .map(

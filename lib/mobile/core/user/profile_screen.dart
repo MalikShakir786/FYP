@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fyp/auth/fyp_login_screen.dart';
+import 'package:fyp/global/global_providers/auth_provider.dart';
+import 'package:fyp/global/global_providers/feedback_provider.dart';
 import 'package:fyp/utils/constants.dart';
 
 import '../../../global/global_widgets/fyp_button.dart';
@@ -8,6 +10,7 @@ import 'about_us_screen.dart';
 import 'edit_profile.dart';
 import 'get_support.dart';
 import 'help.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -49,6 +52,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       const SizedBox(height: 16),
                       UserInfoWidget(
                         onPressed: () {
+                          context.read<AuthProvider>().uEmailController.text = context.read<AuthProvider>().userData!.userEmail;
+                          context.read<AuthProvider>().uUserController.text = context.read<AuthProvider>().userData!.userName;
                           showDialog(
                               barrierDismissible: false,
                               barrierColor: Colors.black26,
@@ -70,6 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         icon: FypIcons.support,
                         title: "Get Support",
                         onPressed: () {
+                          context.read<FeedBackProvider>().fEmailController.text = context.read<AuthProvider>().userData!.userEmail;
                           Navigator.push(context, MaterialPageRoute(builder: (context)=> GetSupport()));
                         },
                       ),
@@ -153,7 +159,7 @@ class UserInfoWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Shakir",
+                  context.watch<AuthProvider>().userData!.userName,
                   maxLines: 1,
                   style: TextStyle(
                     fontSize: 16,

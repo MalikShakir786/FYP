@@ -29,7 +29,6 @@ class _FindBusScreenState extends State<FindBusScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<FindBusProvider>().getSearches(context);
-      print("navigate");
     });
   }
 
