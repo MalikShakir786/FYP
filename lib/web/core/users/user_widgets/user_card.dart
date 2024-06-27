@@ -117,9 +117,17 @@ class _UserCardState extends State<UserCard> {
                           context: context,
                           builder: (BuildContext context) {
                             return ConfirmationAlert(
+                              isLoading: context.watch<UserProvider>().isDelLoading,
                               title: "Delete?",
                               subTitle: "Do you want to delete this user?",
-                              onTap: () {},
+                              onTap: () async{
+                                await context.read<UserProvider>().deleteUser(
+                                    context,
+                                    widget.email
+                                );
+                                Navigator.pop(context);
+                                context.read<UserProvider>().getUsers(context);
+                              },
                             );
                           },
                         );
@@ -185,6 +193,7 @@ class _UserCardState extends State<UserCard> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return ConfirmationAlert(
+                                    isLoading: context.watch<AuthProvider>().isLoading,
                                     title: "Admin?",
                                     subTitle: "Do you want to change this user type?",
                                     onTap: () async {
@@ -214,9 +223,17 @@ class _UserCardState extends State<UserCard> {
                           context: context,
                           builder: (BuildContext context) {
                             return ConfirmationAlert(
+                              isLoading: context.watch<UserProvider>().isLoading,
                               title: "Delete?",
                               subTitle: "Do you want to delete this user?",
-                              onTap: () {},
+                              onTap: () async{
+                                await context.read<UserProvider>().deleteUser(
+                                    context,
+                                    widget.email
+                                );
+                                Navigator.pop(context);
+                                context.read<UserProvider>().getUsers(context);
+                              },
                             );
                           },
                         );

@@ -67,109 +67,168 @@ class _AddBusInfoState extends State<AddBusInfo> {
         contentPadding: EdgeInsets.all(20),
         backgroundColor: Colors.white,
         content: Container(
-          height: 350,
+          height: 380,
           width: MediaQuery.of(context).size.width * 0.6,
-          child: Column(
-            children: [
-              Align(
-                alignment: Alignment.topRight,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Image.asset(
-                    FypIcons.cross,
-                    color: Colors.black,
-                    width: 15,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              bool isSmallScreen = constraints.maxWidth < 500;
+              return Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Image.asset(
+                        FypIcons.cross,
+                        color: Colors.black,
+                        width: 15,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: FypText(
-                  text: "Add Bus Info",
-                  color: primaryColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Row(
+                  Align(
+                    alignment: Alignment.center,
+                    child: FypText(
+                      text: "Add Bus Info",
+                      color: primaryColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: isSmallScreen
+                          ? Column(
+                        children: _buildFormFields(context),
+                      )
+                          : Row(
                         children: [
                           Expanded(
                             child: Column(
-                              children: [
-                                FypTextField(
-                                  controller: context.read<AuthProvider>().confirmPasswordController,
-                                  labelText: "Bus Number",
-                                  labelColor: Colors.black,
-                                  errorText: errorBusNumber,
-                                ),
-                                SizedBox(height: 10),
-                                FypTextField(
-                                  controller: context.read<AuthProvider>().confirmPasswordController,
-                                  labelText: "Bus Plate Number",
-                                  labelColor: Colors.black,
-                                  errorText: errorBusPlateNumber,
-                                ),
-                                SizedBox(height: 10),
-                                FypTextField(
-                                  controller: context.read<AuthProvider>().confirmPasswordController,
-                                  labelText: "Driver Name",
-                                  labelColor: Colors.black,
-                                  errorText: errorDriverName,
-                                ),
-                              ],
+                              children: _buildLeftColumnFields(context),
                             ),
                           ),
                           SizedBox(width: 20),
                           Expanded(
                             child: Column(
-                              children: [
-                                FypTextField(
-                                  controller: context.read<AuthProvider>().confirmPasswordController,
-                                  labelText: "Driver Contact No.",
-                                  labelColor: Colors.black,
-                                  errorText: errorDriverContactNo,
-                                ),
-                                SizedBox(height: 10),
-                                FypTextField(
-                                  controller: context.read<AuthProvider>().confirmPasswordController,
-                                  labelText: "Conductor Name",
-                                  labelColor: Colors.black,
-                                  errorText: errorConductorName,
-                                ),
-                                SizedBox(height: 10),
-                                FypTextField(
-                                  controller: context.read<AuthProvider>().confirmPasswordController,
-                                  labelText: "Conductor Contact No.",
-                                  labelColor: Colors.black,
-                                  errorText: errorConductorContactNo,
-                                ),
-                              ],
+                              children: _buildRightColumnFields(context),
                             ),
                           ),
                         ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-              SizedBox(height: 20),
-              FypButton(
-                buttonColor: primaryColor,
-                buttonWidth: MediaQuery.of(context).size.width * 0.1,
-                text: "Submit",
-                onTap: _validateAndSubmit,
-              ),
-            ],
+                  SizedBox(height: 20),
+                  FypButton(
+                    buttonColor: primaryColor,
+                    buttonWidth: MediaQuery.of(context).size.width * 0.5,
+                    text: "Submit",
+                    onTap: _validateAndSubmit,
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ),
     );
+  }
+
+  List<Widget> _buildFormFields(BuildContext context) {
+    return [
+      FypTextField(
+        controller: context.read<AuthProvider>().confirmPasswordController,
+        labelText: "Bus Number",
+        labelColor: Colors.black,
+        errorText: errorBusNumber,
+      ),
+      SizedBox(height: 10),
+      FypTextField(
+        controller: context.read<AuthProvider>().confirmPasswordController,
+        labelText: "Bus Plate Number",
+        labelColor: Colors.black,
+        errorText: errorBusPlateNumber,
+      ),
+      SizedBox(height: 10),
+      FypTextField(
+        controller: context.read<AuthProvider>().confirmPasswordController,
+        labelText: "Driver Name",
+        labelColor: Colors.black,
+        errorText: errorDriverName,
+      ),
+      SizedBox(height: 10),
+      FypTextField(
+        controller: context.read<AuthProvider>().confirmPasswordController,
+        labelText: "Driver Contact No.",
+        labelColor: Colors.black,
+        errorText: errorDriverContactNo,
+      ),
+      SizedBox(height: 10),
+      FypTextField(
+        controller: context.read<AuthProvider>().confirmPasswordController,
+        labelText: "Conductor Name",
+        labelColor: Colors.black,
+        errorText: errorConductorName,
+      ),
+      SizedBox(height: 10),
+      FypTextField(
+        controller: context.read<AuthProvider>().confirmPasswordController,
+        labelText: "Conductor Contact No.",
+        labelColor: Colors.black,
+        errorText: errorConductorContactNo,
+      ),
+    ];
+  }
+
+  List<Widget> _buildLeftColumnFields(BuildContext context) {
+    return [
+      FypTextField(
+        controller: context.read<AuthProvider>().confirmPasswordController,
+        labelText: "Bus Number",
+        labelColor: Colors.black,
+        errorText: errorBusNumber,
+      ),
+      SizedBox(height: 10),
+      FypTextField(
+        controller: context.read<AuthProvider>().confirmPasswordController,
+        labelText: "Bus Plate Number",
+        labelColor: Colors.black,
+        errorText: errorBusPlateNumber,
+      ),
+      SizedBox(height: 10),
+      FypTextField(
+        controller: context.read<AuthProvider>().confirmPasswordController,
+        labelText: "Driver Name",
+        labelColor: Colors.black,
+        errorText: errorDriverName,
+      ),
+    ];
+  }
+
+  List<Widget> _buildRightColumnFields(BuildContext context) {
+    return [
+      FypTextField(
+        controller: context.read<AuthProvider>().confirmPasswordController,
+        labelText: "Driver Contact No.",
+        labelColor: Colors.black,
+        errorText: errorDriverContactNo,
+      ),
+      SizedBox(height: 10),
+      FypTextField(
+        controller: context.read<AuthProvider>().confirmPasswordController,
+        labelText: "Conductor Name",
+        labelColor: Colors.black,
+        errorText: errorConductorName,
+      ),
+      SizedBox(height: 10),
+      FypTextField(
+        controller: context.read<AuthProvider>().confirmPasswordController,
+        labelText: "Conductor Contact No.",
+        labelColor: Colors.black,
+        errorText: errorConductorContactNo,
+      ),
+    ];
   }
 }

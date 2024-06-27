@@ -17,8 +17,20 @@ class FeedBackProvider extends ChangeNotifier {
 
   List<FeedbackItem> get feedbackList => _feedbackList;
 
+  void clearList(){
+    _feedbackList = [];
+  }
+
   void setIsLoading(bool value) {
     _isLoading = value;
+    notifyListeners();
+  }
+
+  bool _isDelLoading = false;
+  bool get isDelLoading => _isDelLoading;
+
+  void setIsDelLoading(bool value) {
+    _isDelLoading = value;
     notifyListeners();
   }
 
@@ -63,8 +75,6 @@ class FeedBackProvider extends ChangeNotifier {
 
   // Get Feedback method
   Future<void> getFeedback(BuildContext context) async {
-
-    print("entered");
     var url = Uri.https(Constants.baseUrl, EndPoints.showFeedback);
     final Map<String, String> headers = {'Content-Type': 'application/json'};
 
@@ -75,6 +85,7 @@ class FeedBackProvider extends ChangeNotifier {
     print(response.statusCode);
 
     if (response.statusCode == 200) {
+      clearList();
       var result = FeedbackResponse.fromJson(json.decode(response.body));
       _feedbackList = result.data;
       notifyListeners();
@@ -92,7 +103,6 @@ class FeedBackProvider extends ChangeNotifier {
 
   Future<void> searchFeedback(BuildContext context) async {
 
-    print("entered");
     var url = Uri.https(Constants.baseUrl, EndPoints.searchFeedback);
     final Map<String, String> headers = {'Content-Type': 'application/json'};
 
@@ -108,28 +118,30 @@ class FeedBackProvider extends ChangeNotifier {
     print(response.statusCode);
 
     if (response.statusCode == 200) {
+      clearList();
       var result = FeedbackResponse.fromJson(json.decode(response.body));
       _feedbackList = result.data;
       notifyListeners();
     } else {
       var errorModel = ErrorModel.fromJson(json.decode(response.body));
-      showToast(errorModel.message).show(context);
+      // showToast(errorModel.message).show(context);
       notifyListeners();
     }
   }
 
   Future<void> deleteFeedback(BuildContext context,String feedbackId) async {
 
-    print("entered");
+
     var url = Uri.https(Constants.baseUrl, EndPoints.deleteFeedback,{"id": feedbackId});
     final Map<String, String> headers = {'Content-Type': 'application/json'};
     
-
+    setIsDelLoading(true);
     var response = await http.delete(url, headers: headers);
-
+    setIsDelLoading(false);
     print(response.statusCode);
 
     if (response.statusCode == 200) {
+      clearList();
       getFeedback(context);
       showToast("Deleted successfully!").show(context);
       notifyListeners();

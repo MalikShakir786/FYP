@@ -18,6 +18,7 @@ class DropDownField extends StatefulWidget {
     this.initialValue,
     this.fieldHeight = 40,
     this.onChange,
+    this.isEnable = true
   }) : super(key: key);
 
   final List<String> itemList;
@@ -31,7 +32,8 @@ class DropDownField extends StatefulWidget {
   final Color labelColor;
   final String? initialValue;
   final double fieldHeight;
-  final Function(String)? onChange; // Updated the type of onChange to accept a String argument
+  final Function(String)? onChange;
+  final bool isEnable;
 
   @override
   _DropDownFieldState createState() => _DropDownFieldState();
@@ -53,6 +55,7 @@ class _DropDownFieldState extends State<DropDownField> {
         SizedBox(
           height: widget.errorText != null ? widget.fieldHeight + 25 : widget.fieldHeight,
           child: SearchField(
+            enabled: widget.isEnable,
             onTapOutside: (value) {
               FocusScope.of(context).unfocus();
             },

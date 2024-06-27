@@ -9,6 +9,7 @@ import '../../utils/constants.dart';
 import 'package:http/http.dart' as http;
 
 import '../global_models/otp_model.dart';
+import '../global_models/user_model.dart';
 
 class AuthProvider extends ChangeNotifier {
   bool _isLoading = false;
@@ -102,7 +103,7 @@ class AuthProvider extends ChangeNotifier {
     lPasswordController.clear();
   }
 
-  User? userData;
+  UserData? userData;
 
   Future<bool> login(
     BuildContext context,
@@ -132,7 +133,7 @@ class AuthProvider extends ChangeNotifier {
 
     if (response.statusCode == 200) {
       clearFields();
-      var result = UserListModel.fromJson(json.decode(response.body));
+      var result = UserModel.fromJson(json.decode(response.body));
       userData = result.data;
       return true;
     } else {
@@ -251,7 +252,7 @@ class AuthProvider extends ChangeNotifier {
 
 
     final body = {
-      "user_id": userData!.userId,
+      "user_id": "3",
       "current_password": cCurrentPasswordController.text.trim(),
       "new_password": cNewPasswordController.text.trim(),
     };

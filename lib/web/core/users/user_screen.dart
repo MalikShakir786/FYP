@@ -19,7 +19,9 @@ class _UsersScreenState extends State<UsersScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<UserProvider>().getUsers(context);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<UserProvider>().getUsers(context);
+    });
   }
 
   @override
@@ -60,6 +62,13 @@ class _UsersScreenState extends State<UsersScreen> {
                         width: currentWidth * 0.4,
                         child: FypTextField(
                           onChange: (value) {
+                            if(value.isEmpty){
+                              Future.delayed(Duration(seconds: 1), () {
+                                setState(() {
+                                  context.read<UserProvider>().getUsers(context);
+                                });
+                              });
+                            }
                             Future.delayed(Duration(seconds: 1), () {
                               setState(() {
                                 context.read<UserProvider>().searchUser(context);
@@ -73,14 +82,14 @@ class _UsersScreenState extends State<UsersScreen> {
                           prefixIcon: Icon(Icons.directions_bus, color: primaryColor),
                         ),
                       ),
-                      SizedBox(width: 50),
-                      FypButton(
-                        text: "Search",
-                        buttonWidth: 120,
-                        onTap: () {
-                          context.read<UserProvider>().searchUser(context);
-                        },
-                      ),
+                      // SizedBox(width: 50),
+                      // FypButton(
+                      //   text: "Search",
+                      //   buttonWidth: 120,
+                      //   onTap: () {
+                      //     context.read<UserProvider>().searchUser(context);
+                      //   },
+                      // ),
                     ],
                   );
                 } else {
@@ -89,6 +98,13 @@ class _UsersScreenState extends State<UsersScreen> {
                     children: [
                       FypTextField(
                         onChange: (value) {
+                          if(value.isEmpty){
+                            Future.delayed(Duration(seconds: 1), () {
+                              setState(() {
+                                context.read<UserProvider>().getUsers(context);
+                              });
+                            });
+                          }
                           Future.delayed(Duration(seconds: 1), () {
                             setState(() {
                               context.read<UserProvider>().searchUser(context);
@@ -101,13 +117,13 @@ class _UsersScreenState extends State<UsersScreen> {
                         labelColor: Colors.black,
                         prefixIcon: Icon(Icons.directions_bus, color: primaryColor),
                       ),
-                      SizedBox(height: 20),
-                      FypButton(
-                        text: "Search",
-                        onTap: () {
-                          context.read<UserProvider>().searchUser(context);
-                        },
-                      ),
+                      // SizedBox(height: 20),
+                      // FypButton(
+                      //   text: "Search",
+                      //   onTap: () {
+                      //     context.read<UserProvider>().searchUser(context);
+                      //   },
+                      // ),
                     ],
                   );
                 }

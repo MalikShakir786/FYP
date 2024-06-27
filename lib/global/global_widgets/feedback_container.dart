@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fyp/global/global_providers/feedback_provider.dart';
+import 'package:fyp/global/global_providers/user_provider.dart';
 import 'package:fyp/utils/constants.dart';
 
 import 'confirmation_alert.dart';
 import 'fyp_text.dart';
+import 'package:provider/provider.dart';
 
 class FeedBackContainer extends StatelessWidget {
  FeedBackContainer({super.key,
@@ -59,51 +62,60 @@ class FeedBackContainer extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 5,),
-                  Container(
-                    constraints: const BoxConstraints(minWidth: 200),
-                    decoration: BoxDecoration(
-                      color: primaryColor.withOpacity(0.1),
-                      border: Border.all(
-                        width: 1,
-                        color: primaryColor
-                      ),
-                      borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(18),
-                        bottomRight: Radius.circular(18),
-                        bottomLeft: Radius.circular(18),
-                      ),
-                    ),
-                    padding: const EdgeInsets.all(10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        FypText(text: title,fontSize: 12,color: Colors.black,),
-                        FypText(
-                          text: review,
-                          fontSize: 12,
-                          color: Theme.of(context).colorScheme.secondary,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          constraints: const BoxConstraints(minWidth: 200),
+                          decoration: BoxDecoration(
+                            color: primaryColor.withOpacity(0.1),
+                            border: Border.all(
+                              width: 1,
+                              color: primaryColor
+                            ),
+                            borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(18),
+                              bottomRight: Radius.circular(18),
+                              bottomLeft: Radius.circular(18),
+                            ),
+                          ),
+                          padding: const EdgeInsets.all(10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              FypText(text: title,fontSize: 12,color: Colors.black,),
+                              FypText(
+                                text: review,
+                                fontSize: 12,
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: GestureDetector(
+                            onTap: (){
+                              showDialog(
+                                  barrierDismissible: false,
+                                  barrierColor: Colors.black26,
+                                  context: context, builder: (BuildContext context){
+                                return ConfirmationAlert(
+                                    isLoading: context.watch<FeedBackProvider>().isDelLoading,
+                                    title: "Delete?", subTitle: "Do you want to delete this feedback?",
+                                    onTap: onDelTap
+                                );
+                              });
+                            },
+                            child: Icon(Icons.delete,color: primaryColor,size: 24,)),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: GestureDetector(
-                onTap: (){
-                  showDialog(
-                      barrierDismissible: false,
-                      barrierColor: Colors.black26,
-                      context: context, builder: (BuildContext context){
-                    return ConfirmationAlert(title: "Delete?", subTitle: "Do you want to delete this feedback?",
-                      onTap: onDelTap
-                    );
-                  });
-                },
-                child: Icon(Icons.delete,color: primaryColor,size: 24,)),
           ),
         ],
       ),

@@ -92,6 +92,7 @@ class EndPoints {
   static const getUser = "/php-api/user/read.php";
   static const updateUser = "/php-api/user/update.php";
   static const searchUser = "/php-api/user/search.php";
+  static const deleteUser = "/php-api/user/delete.php";
 
   //Recent Searches
   static const searches = "/php-api/search/search.php";
@@ -108,6 +109,10 @@ class EndPoints {
   static const deleteTimetable = "/php-api/timetable/delete.php";
   static const showTimetable = "/php-api/timetable/show.php";
   static const updateTimetable = "/php-api/timetable/update.php";
+
+  //Buses
+  static const getBuses = "/php-api/bus/show.php";
+  static const updateBuses = "/php-api/bus/update.php";
 
 
   static String chatMessages(int channelId) {

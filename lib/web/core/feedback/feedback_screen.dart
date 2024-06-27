@@ -127,12 +127,12 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
                           labelColor: Colors.black,
                           prefixIcon: Icon(Icons.title,color: primaryColor,),
                         ),
-                        SizedBox(height: 10,),
                       ],
                     );
                   }
                 },
               ),
+              SizedBox(height: 10,),
               Expanded(
                 child: provider.isLoading
                     ? Center(

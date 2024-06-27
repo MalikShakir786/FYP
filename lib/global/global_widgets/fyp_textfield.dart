@@ -64,6 +64,9 @@ class FypTextField extends StatelessWidget {
         SizedBox(
           height: calculatedHeight,
           child: TextField(
+            onTapOutside: (value){
+              FocusScope.of(context).unfocus();
+            },
             enabled: !isDisable,
             maxLines: maxLines,
             onChanged: onChange,

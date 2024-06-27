@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fyp/global/global_providers/timetable_provider.dart';
 import 'package:fyp/global/global_providers/user_provider.dart';
 import 'package:fyp/utils/constants.dart';
 import 'fyp_splash_screen.dart';
@@ -31,8 +32,12 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => FeedBackProvider(),
-        ),ChangeNotifierProvider(
+        ),
+        ChangeNotifierProvider(
           create: (_) => UserProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => TimeTableProvider(),
         ),
       ],
       child: Builder(
