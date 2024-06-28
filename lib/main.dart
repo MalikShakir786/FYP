@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fyp/global/global_providers/notification_provider.dart';
+import 'package:fyp/global/global_providers/records_provider.dart';
+import 'package:fyp/global/global_providers/route_provider.dart';
 import 'package:fyp/global/global_providers/timetable_provider.dart';
 import 'package:fyp/global/global_providers/user_provider.dart';
 import 'package:fyp/utils/constants.dart';
@@ -38,6 +41,15 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => TimeTableProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => RecordsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => RouteProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => NotificationProvider(),
         ),
       ],
       child: Builder(

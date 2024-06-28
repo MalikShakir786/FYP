@@ -4,7 +4,9 @@ import 'package:flutter/widgets.dart';
 import 'package:fyp/web/core/dashboard/main_dashboard.dart';
 import 'package:fyp/web/core/feedback/feedback_screen.dart';
 import 'package:fyp/web/core/timetable/timetable_screen.dart';
+import 'package:fyp/web/core/route/routes_screen.dart'; // Import RoutesScreen
 import '../../../global/global_widgets/fyp_text.dart';
+import '../../../mobile/core/user/edit_profile.dart';
 import '../../../utils/constants.dart';
 import '../bus_info/bus_info_screen.dart';
 import '../users/user_screen.dart';
@@ -19,11 +21,9 @@ class WebDashBoard extends StatefulWidget {
 class _WebDashBoardState extends State<WebDashBoard> {
   int selectedIndex = 0;
   bool isMenuExtended = false;
-  bool isMenuVisible = true;
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Stack(
         children: [
@@ -42,15 +42,12 @@ class _WebDashBoardState extends State<WebDashBoard> {
                   extended: isMenuExtended,
                   indicatorColor: Colors.white,
                   destinations: [
-                    buildNavigationRailDestination(
-                        FypIcons.dashBoard, "Dashboard", 0),
-                    buildNavigationRailDestination(
-                        FypIcons.bus, "Bus Information", 1),
-                    buildNavigationRailDestination(
-                        FypIcons.timeTable, "Time Table", 2),
-                    buildNavigationRailDestination(
-                        FypIcons.feedback, "Feed Back", 3),
+                    buildNavigationRailDestination(FypIcons.dashBoard, "Dashboard", 0),
+                    buildNavigationRailDestination(FypIcons.bus, "Bus Information", 1),
+                    buildNavigationRailDestination(FypIcons.timeTable, "Time Table", 2),
+                    buildNavigationRailDestination(FypIcons.feedback, "Feed Back", 3),
                     buildNavigationRailDestination(FypIcons.users, "Users", 4),
+                    buildNavigationRailDestination(FypIcons.busStop, "Routes", 5), // Add Routes
                   ],
                 ),
               ),
@@ -64,10 +61,12 @@ class _WebDashBoardState extends State<WebDashBoard> {
                         : selectedIndex == 1
                         ? BusInfoScreen()
                         : selectedIndex == 2
-                            ? TimeTableScreen()
-                            : selectedIndex == 3
-                                ? FeedBackScreen()
-                                : UsersScreen(),
+                        ? TimeTableScreen()
+                        : selectedIndex == 3
+                        ? FeedBackScreen()
+                        : selectedIndex == 4
+                        ? UsersScreen()
+                        : RoutesScreen(), // Handle RoutesScreen
                   ),
                 ),
               ),
@@ -90,9 +89,44 @@ class _WebDashBoardState extends State<WebDashBoard> {
                     },
                     child: Icon(Icons.menu, color: Colors.white),
                   ),
-                  Image.asset(FypImages.logoDesktop),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
+                  Image.asset(
+                    FypImages.logoDesktop,
+                    width: MediaQuery.of(context).size.width * 0.3,
+                  ),
+                  PopupMenuButton<String>(
+                    onSelected: (value) {
+                      if (value == 'Dashboard') {
+                        setState(() {
+                          selectedIndex = 0;
+                        });
+                      } else if (value == 'Edit Profile') {
+                        showDialog(
+                            barrierDismissible: false,
+                            barrierColor: Colors.black26,
+                            context: context,
+                            builder: (BuildContext context) {
+                              return EditProfile();
+                            });
+                      }
+                    },
+                    itemBuilder: (context) => [
+                      PopupMenuItem(
+                        value: 'Dashboard',
+                        child: FypText(
+                          text: 'Dashboard',
+                          color: primaryColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      PopupMenuItem(
+                        value: 'Edit Profile',
+                        child: FypText(
+                          text: 'Edit Profile',
+                          color: primaryColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                     child: Row(
                       children: [
                         Image.asset(FypImages.userAvatar),
@@ -123,6 +157,7 @@ class _WebDashBoardState extends State<WebDashBoard> {
         child: Image.asset(
           icon,
           color: selectedIndex == index ? primaryColor : Colors.white,
+          height: 20,
           width: 20,
         ),
       ),

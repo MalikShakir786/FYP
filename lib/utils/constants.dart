@@ -113,10 +113,21 @@ class EndPoints {
   //Buses
   static const getBuses = "/php-api/bus/show.php";
   static const updateBuses = "/php-api/bus/update.php";
+  static const deleteBus = "/php-api/bus/delete.php";
+  static const insertBus = "/php-api/bus/insert.php";
 
+  //Records
+  static const getRecords = "/php-api/records/get.php";
 
-  static String chatMessages(int channelId) {
-    return "/api/v1/chats/$channelId/messages/";
-  }
+  //Routes
+  static const getRoutes = "/php-api/route/show.php";
+  static const insertRoutes = "/php-api/route/insert.php";
+  static const deleteRoutes = "/php-api/route/delete.php";
+  static const updateRoutes = "/php-api/route/update.php";
+
+  //Notifications
+  static const getNotifications = "/php-api/notification/show.php";
+  static const deleteNotifications = "/php-api/notification/delete.php";
+
 
 }

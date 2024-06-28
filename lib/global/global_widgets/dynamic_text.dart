@@ -14,11 +14,11 @@ class DynamicText extends StatelessWidget {
   double calculateFontSize(String text) {
     int length = text.length;
     if (length < 10) {
-      return 24.0; // Larger font size for short text
+      return 16.0; // Larger font size for short text
     } else if (length < 20) {
-      return 20.0; // Medium font size for medium text
+      return 12.0; // Medium font size for medium text
     } else {
-      return 16.0; // Smaller font size for long text
+      return 8.0; // Smaller font size for long text
     }
   }
 

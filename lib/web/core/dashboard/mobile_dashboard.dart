@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:fyp/web/core/dashboard/main_dashboard.dart';
 import 'package:fyp/web/core/feedback/feedback_screen.dart';
 import 'package:fyp/web/core/timetable/timetable_screen.dart';
+import 'package:fyp/web/core/route/routes_screen.dart';
 import '../../../global/global_widgets/fyp_text.dart';
+import '../../../mobile/core/user/edit_profile.dart';
 import '../../../utils/constants.dart';
 import '../bus_info/bus_info_screen.dart';
 import '../users/user_screen.dart';
@@ -24,14 +26,16 @@ class _MobileDashBoardState extends State<MobileDashBoard> {
     "Bus Information",
     "Time Table",
     "Feedback",
-    "Users"
+    "Users",
+    "Routes"
   ];
   final List<String> menuIcons = [
     FypIcons.dashBoard,
     FypIcons.bus,
     FypIcons.timeTable,
     FypIcons.feedback,
-    FypIcons.users
+    FypIcons.users,
+    FypIcons.busStop
   ];
 
   @override
@@ -70,7 +74,7 @@ class _MobileDashBoardState extends State<MobileDashBoard> {
                         Image.asset(
                           menuIcons[index],
                           color: selectedIndex == index ? primaryColor : Colors.white,
-                          width: 20,
+                          width: 20,height: 20,
                         ),
                       ],
                     ),
@@ -96,7 +100,8 @@ class _MobileDashBoardState extends State<MobileDashBoard> {
               child: selectedIndex == 0? MainDashboard():
               selectedIndex == 1? BusInfoScreen():
               selectedIndex == 2? TimeTableScreen():
-              selectedIndex == 3? FeedBackScreen(): UsersScreen(),
+              selectedIndex == 3? FeedBackScreen():
+              selectedIndex == 4? UsersScreen(): RoutesScreen(),
             ),
             Container(
               color: primaryColor,
@@ -122,9 +127,52 @@ class _MobileDashBoardState extends State<MobileDashBoard> {
                       padding: const EdgeInsets.symmetric(vertical: 15),
                       child: Row(
                         children: [
-                          Image.asset(FypImages.userAvatar),
-                          SizedBox(width: 5),
-                          Icon(Icons.arrow_drop_down, color: Colors.white),
+                          DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              icon: Row(
+                                children: [
+                                  Image.asset(FypImages.userAvatar),
+                                  SizedBox(width: 5),
+                                  Icon(Icons.arrow_drop_down, color: Colors.white),
+                                ],
+                              ),
+                              items: [
+                                DropdownMenuItem<String>(
+                                  value: 'Dashboard',
+                                  child: FypText(
+                                    text: 'Dashboard',
+                                    color: primaryColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                DropdownMenuItem<String>(
+                                  value: 'Edit Profile',
+                                  child: FypText(
+                                    text: 'Edit Profile',
+                                    color: primaryColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                              onChanged: (value) {
+                                if (value == 'Dashboard') {
+                                  // Navigate to Dashboard
+                                  setState(() {
+                                    selectedIndex = 0;
+                                  });
+                                } else if (value == 'Edit Profile') {
+                                  // Navigate to Edit Profile
+                                  showDialog(
+                                      barrierDismissible: false,
+                                      barrierColor: Colors.black26,
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return EditProfile();
+                                      });
+                                }
+                              },
+                            ),
+                          ),
                         ],
                       ),
                     ),

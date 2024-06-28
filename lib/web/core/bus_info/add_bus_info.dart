@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fyp/global/global_providers/bus_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../global/global_providers/auth_provider.dart';
 import '../../../global/global_widgets/fyp_button.dart';
@@ -25,28 +26,30 @@ class _AddBusInfoState extends State<AddBusInfo> {
   final contactPattern = RegExp(r'^03\d{2}-\d{7}$');
 
   void _validateAndSubmit() {
+    final busProvider = context.read<BusProvider>();
+
     setState(() {
-      errorBusNumber = context.read<AuthProvider>().confirmPasswordController.text.isEmpty
+      errorBusNumber = busProvider.noController.text.isEmpty
           ? "Please enter bus number"
           : null;
-      errorBusPlateNumber = context.read<AuthProvider>().confirmPasswordController.text.isEmpty
+      errorBusPlateNumber = busProvider.noPlateController.text.isEmpty
           ? "Please enter bus plate number"
           : null;
-      errorDriverName = context.read<AuthProvider>().confirmPasswordController.text.isEmpty
+      errorDriverName = busProvider.dNameController.text.isEmpty
           ? "Please enter driver name"
           : null;
-      errorDriverContactNo = context.read<AuthProvider>().confirmPasswordController.text.isEmpty
+      errorDriverContactNo = busProvider.dContactController.text.isEmpty
           ? "Please enter driver contact number"
-          : (!contactPattern.hasMatch(context.read<AuthProvider>().confirmPasswordController.text)
-          ? "Invalid contact format (e.g., 0300-0000000)"
+          : (!contactPattern.hasMatch(busProvider.dContactController.text)
+          ? "Invalid contact format_0300-0000000"
           : null);
-      errorConductorName = context.read<AuthProvider>().confirmPasswordController.text.isEmpty
+      errorConductorName = busProvider.cNameController.text.isEmpty
           ? "Please enter conductor name"
           : null;
-      errorConductorContactNo = context.read<AuthProvider>().confirmPasswordController.text.isEmpty
+      errorConductorContactNo = busProvider.cContactController.text.isEmpty
           ? "Please enter conductor contact number"
-          : (!contactPattern.hasMatch(context.read<AuthProvider>().confirmPasswordController.text)
-          ? "Invalid contact format (e.g., 0300-0000000)"
+          : (!contactPattern.hasMatch(busProvider.cContactController.text)
+          ? "Invalid contact format_0300-0000000"
           : null);
     });
 
@@ -56,6 +59,13 @@ class _AddBusInfoState extends State<AddBusInfo> {
         errorDriverContactNo == null &&
         errorConductorName == null &&
         errorConductorContactNo == null) {
+      inserted();
+    }
+  }
+
+  void inserted()async{
+    bool isPop = await context.read<BusProvider>().insertBus(context);
+    if(isPop){
       Navigator.pop(context);
     }
   }
@@ -122,6 +132,7 @@ class _AddBusInfoState extends State<AddBusInfo> {
                   ),
                   SizedBox(height: 20),
                   FypButton(
+                    isLoading: context.watch<BusProvider>().isEditLoading,
                     buttonColor: primaryColor,
                     buttonWidth: MediaQuery.of(context).size.width * 0.5,
                     text: "Submit",
@@ -139,42 +150,42 @@ class _AddBusInfoState extends State<AddBusInfo> {
   List<Widget> _buildFormFields(BuildContext context) {
     return [
       FypTextField(
-        controller: context.read<AuthProvider>().confirmPasswordController,
+        controller: context.read<BusProvider>().noController,
         labelText: "Bus Number",
         labelColor: Colors.black,
         errorText: errorBusNumber,
       ),
       SizedBox(height: 10),
       FypTextField(
-        controller: context.read<AuthProvider>().confirmPasswordController,
+        controller: context.read<BusProvider>().noPlateController,
         labelText: "Bus Plate Number",
         labelColor: Colors.black,
         errorText: errorBusPlateNumber,
       ),
       SizedBox(height: 10),
       FypTextField(
-        controller: context.read<AuthProvider>().confirmPasswordController,
+        controller: context.read<BusProvider>().dNameController,
         labelText: "Driver Name",
         labelColor: Colors.black,
         errorText: errorDriverName,
       ),
       SizedBox(height: 10),
       FypTextField(
-        controller: context.read<AuthProvider>().confirmPasswordController,
+        controller: context.read<BusProvider>().dContactController,
         labelText: "Driver Contact No.",
         labelColor: Colors.black,
         errorText: errorDriverContactNo,
       ),
       SizedBox(height: 10),
       FypTextField(
-        controller: context.read<AuthProvider>().confirmPasswordController,
+        controller: context.read<BusProvider>().cNameController,
         labelText: "Conductor Name",
         labelColor: Colors.black,
         errorText: errorConductorName,
       ),
       SizedBox(height: 10),
       FypTextField(
-        controller: context.read<AuthProvider>().confirmPasswordController,
+        controller: context.read<BusProvider>().cContactController,
         labelText: "Conductor Contact No.",
         labelColor: Colors.black,
         errorText: errorConductorContactNo,
@@ -185,21 +196,21 @@ class _AddBusInfoState extends State<AddBusInfo> {
   List<Widget> _buildLeftColumnFields(BuildContext context) {
     return [
       FypTextField(
-        controller: context.read<AuthProvider>().confirmPasswordController,
+        controller: context.read<BusProvider>().noController,
         labelText: "Bus Number",
         labelColor: Colors.black,
         errorText: errorBusNumber,
       ),
       SizedBox(height: 10),
       FypTextField(
-        controller: context.read<AuthProvider>().confirmPasswordController,
+        controller: context.read<BusProvider>().noPlateController,
         labelText: "Bus Plate Number",
         labelColor: Colors.black,
         errorText: errorBusPlateNumber,
       ),
       SizedBox(height: 10),
       FypTextField(
-        controller: context.read<AuthProvider>().confirmPasswordController,
+        controller: context.read<BusProvider>().dNameController,
         labelText: "Driver Name",
         labelColor: Colors.black,
         errorText: errorDriverName,
@@ -210,21 +221,21 @@ class _AddBusInfoState extends State<AddBusInfo> {
   List<Widget> _buildRightColumnFields(BuildContext context) {
     return [
       FypTextField(
-        controller: context.read<AuthProvider>().confirmPasswordController,
+        controller: context.read<BusProvider>().dContactController,
         labelText: "Driver Contact No.",
         labelColor: Colors.black,
         errorText: errorDriverContactNo,
       ),
       SizedBox(height: 10),
       FypTextField(
-        controller: context.read<AuthProvider>().confirmPasswordController,
+        controller: context.read<BusProvider>().cNameController,
         labelText: "Conductor Name",
         labelColor: Colors.black,
         errorText: errorConductorName,
       ),
       SizedBox(height: 10),
       FypTextField(
-        controller: context.read<AuthProvider>().confirmPasswordController,
+        controller: context.read<BusProvider>().cContactController,
         labelText: "Conductor Contact No.",
         labelColor: Colors.black,
         errorText: errorConductorContactNo,

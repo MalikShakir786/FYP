@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fyp/global/global_widgets/toast_message.dart';
 import 'package:provider/provider.dart';
 import '../../../global/global_models/bus_model.dart';
 import '../../../global/global_providers/bus_provider.dart';
@@ -20,10 +21,13 @@ class _EditBusInfoState extends State<EditBusInfo> {
   @override
   void initState() {
     super.initState();
-    if (widget.bus != null) {
-      final provider = context.read<BusProvider>();
-      provider.assignFieldsWithBusData(widget.bus!);
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.bus != null) {
+        final provider = context.read<BusProvider>();
+        provider.assignFieldsWithBusData(widget.bus!);
+      }
+    });
+
   }
 
   String? errorBusNumber;
@@ -35,7 +39,7 @@ class _EditBusInfoState extends State<EditBusInfo> {
 
   final contactPattern = RegExp(r'^03\d{2}-\d{7}$');
 
-  void _validateAndUpdate() {
+  void _validateAndUpdate() async {
     final provider = context.read<BusProvider>();
     setState(() {
       errorBusNumber = provider.noController.text.isEmpty ? "Please select bus number" : null;
@@ -60,7 +64,38 @@ class _EditBusInfoState extends State<EditBusInfo> {
         errorDriverContactNo == null &&
         errorConductorName == null &&
         errorConductorContactNo == null) {
-      Navigator.pop(context);
+
+      // Find the selected bus
+      Bus? selectedBus;
+      for (int i = 0; i < provider.busData!.data.length; i++) {
+        if (provider.busData!.data[i].busId == widget.bus!.busId) {
+          selectedBus = provider.busData!.data[i];
+          break;
+        }
+      }
+
+      if (selectedBus != null) {
+        // Find the new driver ID based on the selected driver name
+        String driverName = provider.dNameController.text;
+        String? newDriverId;
+        for (int i = 0; i < provider.busData!.data.length; i++) {
+          if (provider.busData!.data[i].driver.driverName == driverName) {
+            newDriverId = provider.busData!.data[i].driver.driverId;
+            break;
+          }
+        }
+
+        if (newDriverId != null) {
+          // Call the updateBus method with busId and newDriverId
+          await provider.updateBus(context,selectedBus.busId.toString(), newDriverId.toString());
+          Navigator.pop(context);
+          context.read<BusProvider>().getBuses(context);
+        } else {
+          showToast("Invalid Driver!").show(context);
+        }
+      } else {
+        print('Failed to find selected bus.');
+      }
     }
   }
 
@@ -130,6 +165,7 @@ class _EditBusInfoState extends State<EditBusInfo> {
                   ),
                   SizedBox(height: 20),
                   FypButton(
+                    isLoading: context.watch<BusProvider>().isEditLoading,
                     buttonColor: primaryColor,
                     buttonWidth: MediaQuery.of(context).size.width * 0.5,
                     text: "Update",
@@ -318,8 +354,4 @@ class _EditBusInfoState extends State<EditBusInfo> {
       provider.cContactController.text = '';
     }
   }
-
-
-
 }
-

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/global/global_models/bus_model.dart';
+import 'package:fyp/global/global_widgets/confirmation_alert.dart';
 import 'package:fyp/utils/constants.dart';
 import 'package:provider/provider.dart';
 import '../../../global/global_providers/auth_provider.dart';
@@ -65,7 +66,9 @@ class _BusInfoScreenState extends State<BusInfoScreen> {
                   fontSize: 17,
                   fontWeight: FontWeight.bold,
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 Card(
                   color: Colors.white,
                   elevation: 10,
@@ -87,23 +90,28 @@ class _BusInfoScreenState extends State<BusInfoScreen> {
                               SizedBox(width: 10),
                               Expanded(
                                 child: FypTextField(
-                                  controller: context.read<AuthProvider>().confirmPasswordController,
+                                  controller: context.read<BusProvider>().searchNoController,
                                   isLabelShow: false,
                                   fieldHeight: 30,
+                                  onChange: (value) {
+                                    if(context.read<BusProvider>().searchNoController.text.isEmpty){
+                                      Future.delayed(Duration(milliseconds: 1000), () {
+                                        setState(() {
+                                          context.read<BusProvider>().getBuses(context);
+                                        });
+                                      });
+                                    }else{
+                                      Future.delayed(Duration(milliseconds: 1000), () {
+                                        setState(() {
+                                          context.read<BusProvider>().searchBus(context);
+                                        });
+                                      });
+                                    }
+                                  },
                                 ),
                               ),
                             ],
                           ),
-
-                          SizedBox(
-                            height: 20,
-                          ),
-                          FypButton(
-                            text: "Search",
-                            onTap: () {},
-                            buttonWidth: 100,
-                            buttonHeight: 30,
-                          )
                         ],
                       ),
                     )
@@ -112,38 +120,37 @@ class _BusInfoScreenState extends State<BusInfoScreen> {
                       children: [
                         Row(
                           children: [
-                            Row(
-                              children: [
-                                FypText(
-                                  text: "Bus Number",
-                                  fontWeight: FontWeight.w600,
-                                  color: primaryColor,
-                                ),
-                                SizedBox(width: 10),
-                                Container(
-                                    width: currentWidth * 0.2,
-                                    child: FypTextField(
-                                      controller: context.read<AuthProvider>().confirmPasswordController,
-                                      isLabelShow: false,
-                                      fieldHeight: 30,
-                                    )),
-                              ],
+                            FypText(
+                              text: "Bus Number",
+                              fontWeight: FontWeight.w600,
+                              color: primaryColor,
+                            ),
+                            SizedBox(width: 10),
+                            Container(
+                              width: currentWidth * 0.2,
+                              child: FypTextField(
+                                controller: context.read<BusProvider>().searchNoController,
+                                isLabelShow: false,
+                                fieldHeight: 30,
+                                onChange: (value) {
+                                  if(context.read<BusProvider>().searchNoController.text.isEmpty){
+                                    Future.delayed(Duration(milliseconds: 1000), () {
+                                      setState(() {
+                                        context.read<BusProvider>().getBuses(context);
+                                      });
+                                    });
+                                  }else{
+                                    Future.delayed(Duration(milliseconds: 1000), () {
+                                      setState(() {
+                                        context.read<BusProvider>().searchBus(context);
+                                      });
+                                    });
+                                  }
+                                },
+                              ),
                             ),
                           ],
                         ),
-                        FypButton(
-                          text: "Search",
-                          onTap: () {
-                            showDialog(
-                                barrierDismissible: false,
-                                barrierColor: Colors.black26,
-                                context: context, builder: (BuildContext context){
-                              return EditBusInfo();
-                            });
-                          },
-                          buttonWidth: 100,
-                          buttonHeight: 30,
-                        )
                       ],
                     ),
                   ),
@@ -170,9 +177,10 @@ class _BusInfoScreenState extends State<BusInfoScreen> {
                           showDialog(
                               barrierDismissible: false,
                               barrierColor: Colors.black26,
-                              context: context, builder: (BuildContext context){
-                            return AddBusInfo();
-                          });
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AddBusInfo();
+                              });
                         },
                         buttonHeight: 30,
                         buttonWidth: 130,
@@ -250,11 +258,30 @@ class _BusInfoScreenState extends State<BusInfoScreen> {
                                 DataCell(IconButton(
                                   icon: Icon(Icons.delete),
                                   onPressed: () {
-                                    // Implement delete functionality
+                                    showDialog(
+                                      barrierDismissible: false,
+                                      barrierColor: Colors.black26,
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return ConfirmationAlert(
+                                            isLoading: context
+                                                .watch<BusProvider>()
+                                                .isDelLoading,
+                                            title: "Delete?",
+                                            subTitle:
+                                            "Do you want to delete this bus?",
+                                            onTap: () async{
+                                              await context.read<BusProvider>().deleteBus(context, bus.busId);
+                                              Navigator.pop(context);
+                                              context.read<BusProvider>().getBuses(context);
+                                            });
+                                      },
+                                    );
                                   },
                                 )),
                               ]);
-                            }).toList() ?? [],
+                            }).toList() ??
+                                [],
                           ),
                         ),
                       ),

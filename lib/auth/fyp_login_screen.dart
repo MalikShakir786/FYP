@@ -46,7 +46,7 @@ class _FypLoginScreenState extends State<FypLoginScreen> {
       bool isNavigate = await authProvider.login(context);
       if (isNavigate) {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => DashBoardScreen()));
+            context, MaterialPageRoute(builder: (context) => HomeScreen()));
       }
     }
   }

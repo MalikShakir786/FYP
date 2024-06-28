@@ -40,6 +40,8 @@ class DropDownField extends StatefulWidget {
 }
 
 class _DropDownFieldState extends State<DropDownField> {
+  String? _errorText;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -53,8 +55,21 @@ class _DropDownFieldState extends State<DropDownField> {
           ),
         SizedBox(height: 10),
         SizedBox(
-          height: widget.errorText != null ? widget.fieldHeight + 25 : widget.fieldHeight,
+          height: _errorText != null ? widget.fieldHeight + 25 : widget.fieldHeight,
           child: SearchField(
+            validator: (x) {
+              if (x != null && !widget.itemList.contains(x)) {
+                setState(() {
+                  _errorText = 'Invalid value';
+                });
+                return 'Invalid value';
+              } else {
+                setState(() {
+                  _errorText = null;
+                });
+                return null;
+              }
+            },
             enabled: widget.isEnable,
             onTapOutside: (value) {
               FocusScope.of(context).unfocus();
@@ -84,7 +99,7 @@ class _DropDownFieldState extends State<DropDownField> {
             controller: widget.controller,
             itemHeight: 40,
             searchInputDecoration: InputDecoration(
-              errorText: widget.errorText,
+              errorText: _errorText,
               errorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: BorderSide(color: Colors.red, width: 2)),
