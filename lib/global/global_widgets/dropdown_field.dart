@@ -18,7 +18,8 @@ class DropDownField extends StatefulWidget {
     this.initialValue,
     this.fieldHeight = 40,
     this.onChange,
-    this.isEnable = true
+    this.isEnable = true,
+    this.onTextChange
   }) : super(key: key);
 
   final List<String> itemList;
@@ -34,6 +35,7 @@ class DropDownField extends StatefulWidget {
   final double fieldHeight;
   final Function(String)? onChange;
   final bool isEnable;
+  List<SearchFieldListItem<String>> Function(String)? onTextChange;
 
   @override
   _DropDownFieldState createState() => _DropDownFieldState();
@@ -89,6 +91,7 @@ class _DropDownFieldState extends State<DropDownField> {
             )
                 : null,
             autofocus: false,
+            onSearchTextChanged: widget.onTextChange,
             suggestionsDecoration: SuggestionDecoration(
               color: primaryColor.withOpacity(0.2),
             ),

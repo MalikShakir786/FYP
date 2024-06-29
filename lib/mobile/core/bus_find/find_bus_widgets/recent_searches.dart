@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fyp/global/global_providers/timetable_provider.dart';
 import 'package:fyp/mobile/core/bus_find/finded_bus_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -41,7 +42,11 @@ class _RecentSearchesWidgetState extends State<RecentSearchesWidget> {
                       GestureDetector(
                         onTap: () {
                           context.read<FindBusProvider>().destinationController.text = recents[index].searchQuery;
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> FindedBusScreen()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> FindedBusScreen())).then((value){
+                            context.read<FindBusProvider>().timeController.clear();
+                            context.read<FindBusProvider>().destinationController.clear();
+                            context.read<FindBusProvider>().noController.clear();
+                          });
                         },
                         child: Container(
                           height: 30,

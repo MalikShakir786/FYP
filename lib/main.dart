@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fyp/global/global_providers/fav_provider.dart';
 import 'package:fyp/global/global_providers/notification_provider.dart';
 import 'package:fyp/global/global_providers/records_provider.dart';
 import 'package:fyp/global/global_providers/route_provider.dart';
@@ -50,6 +51,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => NotificationProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => FavProvider(),
         ),
       ],
       child: Builder(

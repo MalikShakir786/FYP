@@ -5,7 +5,7 @@ import '../global_models/notification_model.dart';
 import 'fyp_text.dart';
 
 class NotificationTile extends StatelessWidget {
-  final BusInfo notification;
+  final BusNotification notification;
 
   const NotificationTile({super.key, required this.notification});
 
@@ -74,7 +74,7 @@ class NotificationTile extends StatelessWidget {
                 ),
                 child: Center(
                   child: FypText(
-                    text: notification.busNo,
+                    text: notification.busBusNo,
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                     color: Colors.black,

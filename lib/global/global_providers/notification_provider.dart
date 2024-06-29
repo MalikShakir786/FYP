@@ -29,26 +29,25 @@ class NotificationProvider extends ChangeNotifier {
 
   clearNotifications(){
     notifications = [];
-    filteredNotifications = [];
   }
 
-  List<BusInfo> notifications = [];
-  List<BusInfo> filteredNotifications = [];
+  var searchController = TextEditingController();
+
+  List<BusNotification> notifications = [];
 
   Future<void> getNotifications(BuildContext context) async {
     clearNotifications();
-    var url = Uri.https(Constants.baseUrl, EndPoints.getNotifications);
+    var url = Uri.https(Constants.baseUrl, EndPoints.getNotifications,{"user_id":context.read<AuthProvider>().userData!.userId.toString()});
     final Map<String, String> headers = {'Content-Type': 'application/json'};
 
-    print(context.read<AuthProvider>().userData!.userId);
+    print(url);
 
     setIsLoading(true);
     var response = await http.get(url, headers: headers);
     setIsLoading(false);
 
     if (response.statusCode == 200) {
-      notifications = ResponseData.fromJson(json.decode(response.body)).data;
-      filterNotificationsByUser(context);
+      notifications = BusNotificationResponse.fromJson(json.decode(response.body)).data;
       notifyListeners();
     } else {
       var errorModel = ErrorModel.fromJson(json.decode(response.body));
@@ -56,26 +55,47 @@ class NotificationProvider extends ChangeNotifier {
     }
   }
 
-  void filterNotificationsByUser(BuildContext context) {
-    final userId = context.read<AuthProvider>().userData!.userId.toString();
-    filteredNotifications = notifications.where((notification) {
-      return notification.isFavorite.contains(userId);
-    }).toList();
-    notifyListeners();
-  }
-
   Future<void> deleteNotifications(BuildContext context,notId) async {
-    var url = Uri.https(Constants.baseUrl, EndPoints.deleteNotifications,{"id":notId});
+    var url = Uri.https(Constants.baseUrl, EndPoints.deleteNotifications);
     final Map<String, String> headers = {'Content-Type': 'application/json'};
 
+    final Map<String,String> body = {
+      "user_id": context.read<AuthProvider>().userData!.userId.toString(),
+      "id": notId
+    };
+
+    print(body);
 
     setIsDelLoading(true);
-    var response = await http.delete(url, headers: headers);
+    var response = await http.delete(url, headers: headers,body: json.encode(body));
     setIsDelLoading(false);
 
     if (response.statusCode == 200) {
       showToast("Deleted successfully!").show(context);
       getNotifications(context);
+      notifyListeners();
+    } else {
+      var errorModel = ErrorModel.fromJson(json.decode(response.body));
+      print("Failed to fetch buses: ${errorModel.message}");
+    }
+  }
+
+  Future<void> searchNotifications(BuildContext context) async {
+    clearNotifications();
+    var url = Uri.https(Constants.baseUrl, EndPoints.searchNotifications,{"bus_no":searchController.text.trim()});
+    final Map<String, String> headers = {'Content-Type': 'application/json'};
+
+    print(url);
+
+    setIsLoading(true);
+    var response = await http.get(url, headers: headers);
+    setIsLoading(false);
+
+    print(response.statusCode);
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      notifications = BusNotificationResponse.fromJson(json.decode(response.body)).data;
       notifyListeners();
     } else {
       var errorModel = ErrorModel.fromJson(json.decode(response.body));

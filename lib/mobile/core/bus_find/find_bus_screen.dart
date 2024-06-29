@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fyp/global/global_providers/route_provider.dart';
 import 'package:fyp/utils/constants.dart';
 import 'package:provider/provider.dart';
 import '../../../global/global_providers/bus_provider.dart';
@@ -50,7 +51,11 @@ class _FindBusScreenState extends State<FindBusScreen> {
         MaterialPageRoute(
           builder: (context) => FindedBusScreen(),
         ),
-      );
+      ).then((value){
+        context.read<FindBusProvider>().timeController.clear();
+        context.read<FindBusProvider>().destinationController.clear();
+        context.read<FindBusProvider>().noController.clear();
+      });
       context.read<FindBusProvider>().addSearch(context);
       context.read<FindBusProvider>().getSearches(context);
     }
@@ -105,7 +110,7 @@ class _FindBusScreenState extends State<FindBusScreen> {
                   ),
                 ),
                 DropDownField(
-                  itemList: context.read<BusProvider>().busRoute,
+                  itemList: context.read<RouteProvider>().routesList,
                   labelText: "Destination",
                   labelColor: Colors.black,
                   fillColor: primaryColor.withOpacity(0.4),

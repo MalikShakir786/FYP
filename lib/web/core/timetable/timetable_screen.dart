@@ -1,27 +1,23 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fyp/global/global_providers/timetable_provider.dart';
 import 'package:fyp/global/global_widgets/fyp_button.dart';
 import 'package:fyp/utils/constants.dart';
 
 import '../../../global/global_widgets/fyp_text.dart';
 import 'auto_scheduling.dart';
 import 'manual_scheduling.dart';
+import 'package:provider/provider.dart';
 
-class TimeTableScreen extends StatelessWidget {
+class TimeTableScreen extends StatefulWidget {
   TimeTableScreen({super.key});
 
-  final List<String> tableLabels = [
-    "Bus No.",
-    "Bus Plate No.",
-    "Type",
-    "Route",
-    "Start Time",
-    "Departure Time",
-    "Driver Name",
-    "Driver Contact",
-    "Conductor Name",
-    "Conductor Contact",
-    "Scheduling Time"
-  ];
+  @override
+  State<TimeTableScreen> createState() => _TimeTableScreenState();
+}
+
+class _TimeTableScreenState extends State<TimeTableScreen> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -52,46 +48,6 @@ class TimeTableScreen extends StatelessWidget {
                   AutoScheduling(),
                   ManualScheduling(),
                 ],
-              ),
-            ),
-            FypButton(text: "Schedule",buttonColor: primaryColor,onTap: (){
-
-            },),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: FypText(
-                  text: "Recent Schedulings",
-                  color: primaryColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Flexible(
-              child: Card(
-                elevation: 10,
-                child: SizedBox(
-                  width: double.infinity,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: DataTable(
-                      columns: List.generate(tableLabels.length, (index) {
-                        return DataColumn(
-                          label: FypText(
-                            text: tableLabels[index],
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        );
-                      }),
-                      rows: [
-                        // Add your DataRow items here
-                      ],
-                    ),
-                  ),
-                ),
               ),
             ),
           ],

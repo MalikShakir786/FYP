@@ -1,21 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../global/global_providers/find_bus_provider.dart';
+import '../../../global/global_providers/fav_provider.dart';
 import '../../../global/global_widgets/fyp_button.dart';
 import '../../../global/global_widgets/fyp_navbar.dart';
 import '../../../global/global_widgets/fyp_text.dart';
 import '../../../global/global_widgets/text_Rows.dart';
 import '../../../utils/constants.dart';
 
-class BusDetailsScreen extends StatelessWidget {
+class BusDetailsScreen extends StatefulWidget {
   final int id;
+  final int busId;
 
-  const BusDetailsScreen({super.key, required this.id});
+  const BusDetailsScreen({Key? key, required this.id,
+    required this.busId
+  }) : super(key: key);
+
+  @override
+  State<BusDetailsScreen> createState() => _BusDetailsScreenState();
+}
+
+class _BusDetailsScreenState extends State<BusDetailsScreen> {
+  bool isIconChange = false;
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Check if the bus is already in favorites
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      final favProvider = context.read<FavProvider>();
+      setState(() {
+        isIconChange = favProvider.favBuses.any((bus) => bus.busId == widget.busId.toString());
+      });
+    });
+  }
+
+  Future<void> _toggleFavorite() async {
+    final favProvider = context.read<FavProvider>();
+
+    setState(() {
+      isLoading = true;
+    });
+
+    bool success;
+    if (isIconChange) {
+      success = await favProvider.delFavs(context, widget.busId);
+      print(widget.busId);
+    } else {
+      success = await favProvider.addFavs(context, widget.busId);
+      print(widget.busId);
+    }
+
+    if (success) {
+      setState(() {
+        isIconChange = !isIconChange;
+        isLoading = false;
+      });
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final provider = context.read<FindBusProvider>();
-    final busDetail = provider.getBusDetailById(id); // Fetch bus details using ID
+    final busDetail = provider.getBusDetailById(widget.id); // Fetch bus details using ID
 
     if (busDetail == null) {
       return Scaffold(
@@ -74,8 +126,8 @@ class BusDetailsScreen extends StatelessWidget {
                         textRows(
                           firstLeft: "Conductor Name :",
                           secondLeft: "Conductor Contact :",
-                          firstRight: busDetail.conductorName,
-                          secondRight: busDetail.conductorPhoneNo,
+                          firstRight: busDetail.conductorName ?? "Not Available",
+                          secondRight: busDetail.conductorPhoneNo ?? "Not Available",
                         ),
                         Divider(thickness: 1, height: 25, color: Colors.grey),
                         FypText(
@@ -151,14 +203,24 @@ class BusDetailsScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 20),
                     child: Align(
                       alignment: Alignment.topRight,
-                      child: Container(
-                        height: 30,
-                        width: 30,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
+                      child: GestureDetector(
+                        onTap: _toggleFavorite,
+                        child: Container(
+                          height: 30,
+                          width: 30,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Center(
+                            child: isLoading
+                                ? CircularProgressIndicator()
+                                : Icon(
+                              isIconChange ? Icons.star : Icons.star_border,
+                              color: primaryColor,
+                            ),
+                          ),
                         ),
-                        child: Center(child: Icon(Icons.star)),
                       ),
                     ),
                   ),

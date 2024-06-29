@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:fyp/boarding/on_boarding_screen.dart';
+import 'package:fyp/global/global_providers/fav_provider.dart';
+import 'package:fyp/global/global_providers/feedback_provider.dart';
+import 'package:fyp/global/global_providers/route_provider.dart';
+import 'package:fyp/global/global_providers/user_provider.dart';
 import 'package:fyp/utils/constants.dart';
 import 'auth/fyp_login_screen.dart';
+import 'package:provider/provider.dart';
 
 
 
 class FypSplashScreen extends StatefulWidget {
-  const FypSplashScreen({super.key});
+  FypSplashScreen({super.key});
 
   @override
   State<FypSplashScreen> createState() => _FypSplashScreenState();
@@ -14,12 +19,18 @@ class FypSplashScreen extends StatefulWidget {
 
 class _FypSplashScreenState extends State<FypSplashScreen> {
 
+
   bool isAnimate = false;
   String user = "admin";
+
 
   @override
   void initState() {
     super.initState();
+    context.read<RouteProvider>().getRoutes(context);
+    context.read<FavProvider>().getFavs(context);
+    context.read<FeedBackProvider>().getFeedback(context);
+    context.read<UserProvider>().getUsers(context);
     moveToMain(context);
   }
 

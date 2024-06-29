@@ -8,7 +8,7 @@ import '../../../global/global_models/notification_model.dart';
 import 'package:provider/provider.dart';
 
 class DetailAlert extends StatelessWidget {
-  final BusInfo notification;
+  final BusNotification notification;
 
   DetailAlert({Key? key, required this.notification}) : super(key: key);
 

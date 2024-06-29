@@ -1,14 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../global/global_providers/bus_provider.dart';
+import '../../../global/global_providers/fav_provider.dart';
 import '../../../global/global_widgets/bus_detail_container.dart';
 import '../../../global/global_widgets/dropdown_field.dart';
 import '../../../global/global_widgets/fyp_navbar.dart';
+import '../../../global/global_widgets/fyp_textfield.dart';
 import '../../../utils/constants.dart';
 
-class FavBusList extends StatelessWidget {
+class FavBusList extends StatefulWidget {
   const FavBusList({super.key});
+
+  @override
+  State<FavBusList> createState() => _FavBusListState();
+}
+
+class _FavBusListState extends State<FavBusList> {
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      print("navigate");
+      context.read<FavProvider>().getFavs(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,39 +32,52 @@ class FavBusList extends StatelessWidget {
       child: Scaffold(
         body: Column(
           children: [
-            FypNavBar(title: " Favorite Buses List"),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: DropDownField(
-                  itemList: context.read<BusProvider>().busNumbers,
-                  controller: context.read<BusProvider>().noController,
-                fillColor: primaryColor.withOpacity(0.4),
-                hintText: "Bus number",
-              ),
-            ),
-            SizedBox(height: 10,),
-            Divider(thickness: 1,height: 0,),
+            FypNavBar(title: "Favorite Buses List"),
+            SizedBox(height: 10),
             Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Column(
-                      children: List.generate(6, (index) {
+              child: Consumer<FavProvider>(
+                builder: (context, favProvider, child) {
+                  if (favProvider.isLoading) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  if (favProvider.favBuses.isEmpty) {
+                    return Center(
+                      child: Text(
+                        "No favorites available",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: primaryColor,
+                        ),
+                      ),
+                    );
+                  }
+                  return SingleChildScrollView(
+                    child: Column(
+                      children: favProvider.favBuses.map((bus) {
                         return Column(
                           children: [
-                            // BusDetailContainer(
-                            //   starIcon:
-                            //       Icon(Icons.star_rounded, color: primaryColor),
-                            // ),
-                            SizedBox(
-                              height: 20,
-                            )
+                            BusDetailContainer(
+                              starIcon: Icon(Icons.star_rounded, color: primaryColor),
+                              busNo: int.parse(bus.busNo),
+                              route: bus.plateNo, // Adjust as necessary
+                              type: bus.availability == 0?"Not Available": "Available" ,
+                              noPlate: bus.plateNo,
+                              driverName: bus.driverName,
+                              driverContact: bus.driverPhone,
+                              conductorName: bus.conductorName,
+                              conductorContact: bus.conductorPhone,
+                              busId: int.parse(bus.busId),
+                              id: int.parse(bus.busId),
+                              screen: "fav",
+                            ),
+                            SizedBox(height: 20),
                           ],
                         );
-                      }),
+                      }).toList(),
                     ),
-                  ],
-                ),
+                  );
+                },
               ),
             ),
           ],

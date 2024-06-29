@@ -22,8 +22,10 @@ class _MainDashboardState extends State<MainDashboard> {
   @override
   void initState() {
     super.initState();
-    // Fetch records when the widget is initialized
-    context.read<RecordsProvider>().getRecords(context);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.read<RecordsProvider>().getRecords(context);
+    });
+
   }
 
   final List<String> tableLabels = [
@@ -68,120 +70,122 @@ class _MainDashboardState extends State<MainDashboard> {
                   fontSize: 17,
                   fontWeight: FontWeight.bold,
                 ),
-                Expanded(child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox(height: 10),
-                      Card(
-                        color: Colors.white,
-                        elevation: 10,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  children: [
-                                    ClipOval(
-                                      child: Image.asset(
-                                        FypImages.userAvatar,
-                                        width: 60,
-                                        height: 60,
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        SizedBox(height: 10),
+                        Card(
+                          color: Colors.white,
+                          elevation: 10,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    children: [
+                                      ClipOval(
+                                        child: Image.asset(
+                                          FypImages.userAvatar,
+                                          width: 60,
+                                          height: 60,
+                                        ),
                                       ),
+                                      SizedBox(width: 10),
+                                      FypText(
+                                        text: context.watch<AuthProvider>().userData!.userName,
+                                        color: primaryColor,
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 50),
+                                  Align(
+                                    alignment: Alignment.centerRight,
+                                    child: FypButton(
+                                      text: "Edit",
+                                      onTap: () {
+                                        context.read<AuthProvider>().uEmailController.text = context.read<AuthProvider>().userData!.userEmail;
+                                        context.read<AuthProvider>().uUserController.text = context.read<AuthProvider>().userData!.userName;
+                                        showDialog(
+                                          barrierDismissible: false,
+                                          barrierColor: Colors.black26,
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return EditProfile();
+                                          },
+                                        );
+                                      },
+                                      buttonWidth: 100,
+                                      buttonHeight: 30,
                                     ),
-                                    SizedBox(width: 10),
-                                    FypText(
-                                      text: context.watch<AuthProvider>().userData!.userName,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: FypText(
+                              text: "Daily Records",
+                              color: primaryColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        recordsProvider.isLoading
+                            ? Center(child: CircularProgressIndicator())
+                            : Card(
+                          elevation: 10,
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: DataTable(
+                                columns: List.generate(tableLabels.length, (index) {
+                                  return DataColumn(
+                                    label: FypText(
+                                      text: tableLabels[index],
                                       color: primaryColor,
-                                      fontSize: 25,
                                       fontWeight: FontWeight.bold,
                                     ),
-                                  ],
-                                ),
-                                SizedBox(height: 50),
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: FypButton(
-                                    text: "Edit",
-                                    onTap: () {
-                                      context.read<AuthProvider>().uEmailController.text = context.read<AuthProvider>().userData!.userEmail;
-                                      context.read<AuthProvider>().uUserController.text = context.read<AuthProvider>().userData!.userName;
-                                      showDialog(
-                                        barrierDismissible: false,
-                                        barrierColor: Colors.black26,
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return EditProfile();
-                                        },
-                                      );
-                                    },
-                                    buttonWidth: 100,
-                                    buttonHeight: 30,
-                                  ),
-                                ),
-                              ],
+                                  );
+                                }),
+                                rows: List.generate(records.length, (index) {
+                                  final record = records[index];
+                                  return DataRow(
+                                    cells: [
+                                      DataCell(FypText(text: record.busNo, color: Colors.black, fontWeight: FontWeight.bold)),
+                                      DataCell(FypText(text: record.plateNo, color: Colors.black)),
+                                      DataCell(FypText(text: record.status, color: Colors.black)),
+                                      DataCell(FypText(text: record.routeName, color: Colors.black)),
+                                      DataCell(FypText(text: record.sTime, color: Colors.black)),
+                                      DataCell(FypText(text: record.departureTime, color: Colors.black)),
+                                      DataCell(FypText(text: record.driverName, color: Colors.black)),
+                                      DataCell(FypText(text: record.driverPhoneNo, color: Colors.black)),
+                                      DataCell(FypText(text: record.conductorName, color: Colors.black)),
+                                      DataCell(FypText(text: record.conductorPhoneNo, color: Colors.black)),
+                                      DataCell(FypText(text: record.dateTime, color: Colors.black)),
+                                    ],
+                                  );
+                                }),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 10),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: FypText(
-                            text: "Daily Records",
-                            color: primaryColor,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      recordsProvider.isLoading
-                          ? Center(child: CircularProgressIndicator())
-                          : Card(
-                        elevation: 10,
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: DataTable(
-                              columns: List.generate(tableLabels.length, (index) {
-                                return DataColumn(
-                                  label: FypText(
-                                    text: tableLabels[index],
-                                    color: primaryColor,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                );
-                              }),
-                              rows: List.generate(records.length, (index) {
-                                final record = records[index];
-                                return DataRow(
-                                  cells: [
-                                    DataCell(FypText(text: record.busNo,color: Colors.black,fontWeight: FontWeight.bold,)),
-                                    DataCell(FypText(text: record.plateNo,color: Colors.black,)),
-                                    DataCell(FypText(text: record.status,color: Colors.black,)),
-                                    DataCell(FypText(text: record.routeName,color: Colors.black,)),
-                                    DataCell(FypText(text: record.sTime,color: Colors.black,)),
-                                    DataCell(FypText(text: record.departureTime,color: Colors.black,)),
-                                    DataCell(FypText(text: record.driverName,color: Colors.black,)),
-                                    DataCell(FypText(text: record.driverPhoneNo,color: Colors.black,)),
-                                    DataCell(FypText(text: record.conductorName,color: Colors.black,)),
-                                    DataCell(FypText(text: record.conductorPhoneNo,color: Colors.black,)),
-                                    DataCell(FypText(text: record.dateTime,color: Colors.black,)),
-                                  ],
-                                );
-                              }),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ))
+                ),
               ],
             ),
           ),
@@ -190,4 +194,3 @@ class _MainDashboardState extends State<MainDashboard> {
     );
   }
 }
-

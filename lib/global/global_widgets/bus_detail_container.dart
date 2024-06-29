@@ -5,39 +5,68 @@ import 'package:fyp/global/global_widgets/text_Rows.dart';
 import '../../mobile/core/bus_find/bus_details_screen.dart';
 import '../../utils/constants.dart';
 import 'fyp_text.dart';
+import '../../mobile/core/lists/fav_detail.dart';  // Import the FavDetail screen
 
 class BusDetailContainer extends StatelessWidget {
-  final Icon starIcon;
+  final Icon starIcon;  // Change type to Icon
   final int busNo;
   final String route;
   final String type;
   final String noPlate;
   final String driverName;
   final String driverContact;
-  final int id;  // Add an ID field
+  final int id;
+  final int busId;
+  final String screen;
+  final String? conductorName;
+  final String? conductorContact;
 
   BusDetailContainer({
-    super.key,
-    required this.starIcon,
+    Key? key,
+    required this.starIcon,  // Update type to Icon
     required this.type,
     required this.driverContact,
     required this.driverName,
     required this.busNo,
     required this.noPlate,
     required this.route,
-    required this.id,  // Initialize the ID field
+    required this.id,
+    required this.busId,
+    required this.screen,
+    this.conductorName,
+    this.conductorContact,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => BusDetailsScreen(id: id),
-          ),
-        );
+        print(busId);
+        if (screen == 'find') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BusDetailsScreen(id: id,busId: busId),
+            ),
+          );
+        } else if (screen == 'fav') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => FavDetail(
+                id: id,
+                busNo: busNo,
+                route: route,
+                type: type,
+                noPlate: noPlate,
+                driverName: driverName,
+                driverContact: driverContact,
+                conductorName: conductorName,
+                conductorContact: conductorContact,
+              ),
+            ),
+          );
+        }
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -45,7 +74,7 @@ class BusDetailContainer extends StatelessWidget {
           children: [
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-              margin: EdgeInsets.only(top: 30), // Adjust margin to position below the number container
+              margin: EdgeInsets.only(top: 30),
               width: double.infinity,
               decoration: BoxDecoration(
                 color: primaryColor.withOpacity(0.3),
@@ -129,7 +158,7 @@ class BusDetailContainer extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  child: Center(child: starIcon),
+                  child: Center(child: starIcon),  // Use the provided starIcon directly
                 ),
               ),
             ),
@@ -139,3 +168,4 @@ class BusDetailContainer extends StatelessWidget {
     );
   }
 }
+

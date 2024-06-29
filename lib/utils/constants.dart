@@ -77,7 +77,7 @@ class FypIcons{
 }
 
 class Constants {
-  static const baseUrl = "269e-119-73-113-23.ngrok-free.app";
+  static const baseUrl = "3fb2-119-73-99-24.ngrok-free.app";
 }
 
 class EndPoints {
@@ -128,6 +128,10 @@ class EndPoints {
   //Notifications
   static const getNotifications = "/php-api/notification/show.php";
   static const deleteNotifications = "/php-api/notification/delete.php";
+  static const searchNotifications = "/php-api/notification/search.php";
+
+  // Favorite
+  static const favorite = "/php-api/favorite/favorite.php";
 
 
 }

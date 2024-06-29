@@ -66,6 +66,15 @@ class RouteProvider extends ChangeNotifier {
     if (response.statusCode == 200) {
       var routesResponse = RoutesResponse.fromJson(json.decode(response.body));
       _routes = routesResponse.routes;
+      Set<String> uniqueNames = {};
+      routesList = [];
+      _routes.forEach((route) {
+        if (!uniqueNames.contains(route.rname)) {
+          routesList.add(route.rname);
+          uniqueNames.add(route.rname);
+        }
+      });
+
       notifyListeners();
     } else {
       var errorModel = ErrorModel.fromJson(json.decode(response.body));

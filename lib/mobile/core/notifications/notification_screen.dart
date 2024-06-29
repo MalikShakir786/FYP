@@ -36,10 +36,27 @@ class _NotificationScreenState extends State<NotificationScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: FypTextField(
-                hintText: "Bus Number",
+                controller: context.read<NotificationProvider>().searchController,
                 labelText: "Bus No.",
                 labelColor: Colors.black,
-              )
+                hintText: "Bus Number",
+                fieldHeight: 30,
+                onChange: (value) {
+                  if(context.read<NotificationProvider>().searchController.text.isEmpty){
+                    Future.delayed(Duration(milliseconds: 1000), () {
+                      setState(() {
+                        context.read<NotificationProvider>().getNotifications(context);
+                      });
+                    });
+                  }else{
+                    Future.delayed(Duration(milliseconds: 1000), () {
+                      setState(() {
+                        context.read<NotificationProvider>().searchNotifications(context);
+                      });
+                    });
+                  }
+                },
+              ),
             ),
             SizedBox(height: 20,),
             Expanded(
@@ -66,14 +83,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         builder: (context, notificationProvider, child) {
                           if (notificationProvider.isLoading) {
                             return Center(child: CircularProgressIndicator(color: Colors.white,));
-                          } else if (notificationProvider.filteredNotifications.isEmpty) {
+                          } else if (notificationProvider.notifications.isEmpty) {
                             return Center(child: FypText(text: "No notifications available",));
                           } else {
                             return ListView.builder(
-                              itemCount: notificationProvider.filteredNotifications.length,
+                              itemCount: notificationProvider.notifications.length,
                               itemBuilder: (context, index) {
                                 return NotificationTile(
-                                  notification: notificationProvider.filteredNotifications[index],
+                                  notification: notificationProvider.notifications[index],
                                 );
                               },
                             );
