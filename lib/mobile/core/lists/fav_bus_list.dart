@@ -28,11 +28,11 @@ class _FavBusListState extends State<FavBusList> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
           children: [
-            FypNavBar(title: "Favorite Buses List"),
+            FypNavBar(title: "Favorite Buses List",isShowPrefix: false,),
             SizedBox(height: 10),
             Expanded(
               child: Consumer<FavProvider>(
@@ -59,7 +59,7 @@ class _FavBusListState extends State<FavBusList> {
                           children: [
                             BusDetailContainer(
                               starIcon: Icon(Icons.star_rounded, color: primaryColor),
-                              busNo: int.parse(bus.busNo),
+                              busNo: bus.busNo,
                               route: bus.plateNo, // Adjust as necessary
                               type: bus.availability == 0?"Not Available": "Available" ,
                               noPlate: bus.plateNo,
@@ -67,8 +67,8 @@ class _FavBusListState extends State<FavBusList> {
                               driverContact: bus.driverPhone,
                               conductorName: bus.conductorName,
                               conductorContact: bus.conductorPhone,
-                              busId: int.parse(bus.busId),
-                              id: int.parse(bus.busId),
+                              busId: bus.busId,
+                              id: bus.busId,
                               screen: "fav",
                             ),
                             SizedBox(height: 20),

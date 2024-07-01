@@ -44,12 +44,12 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: isSelected ? EdgeInsets.all(6) : null, // Adjust the padding as needed
           child: Icon(
             icon,
-            size: isSelected ? 30 : 24,
+            size: isSelected ? 25 : 20,
             color: isSelected ? primaryColor : Colors.white,
           ),
         ),
         FypText(text: label,
-        fontSize: isSelected? 12:10,
+        fontSize: isSelected? 10:8,
           fontWeight: isSelected? FontWeight.bold:FontWeight.normal,
         )
       ],
@@ -58,35 +58,33 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: _screens[_selectedIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          items: [
-            BottomNavigationBarItem(
-              icon: _buildIcon(Icons.directions_bus,0,"Find Bus"),
-              label: "Find Bus"
-            ),
-            BottomNavigationBarItem(
-              icon: _buildIcon(Icons.favorite, 1, "Favorites"),
-              label: "Favorites"
-            ),
-            BottomNavigationBarItem(
-              icon: _buildIcon(Icons.notifications, 2, "Notifications"),
-              label: "Notifications"
-            ),
-            BottomNavigationBarItem(
-              icon: _buildIcon(Icons.person, 3, "Profile"),
-              label: "Profile"
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          backgroundColor: primaryColor,
-          onTap: _onItemTapped,
-          type: BottomNavigationBarType.fixed,
-          showUnselectedLabels: false,
-          showSelectedLabels: false,
-        ),
+    return Scaffold(
+      body: _screens[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: _buildIcon(Icons.directions_bus,0,"Find Bus"),
+            label: "Find Bus"
+          ),
+          BottomNavigationBarItem(
+            icon: _buildIcon(Icons.favorite, 1, "Favorites"),
+            label: "Favorites"
+          ),
+          BottomNavigationBarItem(
+            icon: _buildIcon(Icons.notifications, 2, "Notifications"),
+            label: "Notifications"
+          ),
+          BottomNavigationBarItem(
+            icon: _buildIcon(Icons.person, 3, "Profile"),
+            label: "Profile"
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        backgroundColor: primaryColor,
+        onTap: _onItemTapped,
+        type: BottomNavigationBarType.fixed,
+        showUnselectedLabels: false,
+        showSelectedLabels: false,
       ),
     );
   }

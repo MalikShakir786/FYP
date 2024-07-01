@@ -31,9 +31,9 @@ class _FindedBusScreenState extends State<FindedBusScreen> {
     final provider = context.watch<FindBusProvider>();
     final favProvider = context.watch<FavProvider>();
 
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
           children: [
             FypNavBar(title: "Finded Bus Details"),
             Padding(
@@ -134,7 +134,7 @@ class _FindedBusScreenState extends State<FindedBusScreen> {
                 child: Column(
                   children: provider.timetables.map((busDetail) {
                     bool isFavorite = favProvider.favBuses
-                        .any((favBus) => favBus.busId == busDetail.id.toString());
+                        .any((favBus) => favBus.busId == busDetail.busId.toString());
                     print(isFavorite);
                     return Column(
                       children: [

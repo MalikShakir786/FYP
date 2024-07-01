@@ -36,7 +36,6 @@ class FeedBackProvider extends ChangeNotifier {
 
   // Clear fields
   void clearFields() {
-    fEmailController.clear();
     fTitleController.clear();
     fDescriptionController.clear();
   }

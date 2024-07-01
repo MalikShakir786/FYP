@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fyp/auth/fyp_login_screen.dart';
 import 'package:fyp/web/core/dashboard/main_dashboard.dart';
 import 'package:fyp/web/core/feedback/feedback_screen.dart';
 import 'package:fyp/web/core/timetable/timetable_screen.dart';
@@ -107,6 +108,8 @@ class _WebDashBoardState extends State<WebDashBoard> {
                             builder: (BuildContext context) {
                               return EditProfile();
                             });
+                      }else if(value == "Logout"){
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> FypLoginScreen()));
                       }
                     },
                     itemBuilder: (context) => [
@@ -126,10 +129,18 @@ class _WebDashBoardState extends State<WebDashBoard> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      PopupMenuItem(
+                        value: 'Logout',
+                        child: FypText(
+                          text: 'Logout',
+                          color: primaryColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                     child: Row(
                       children: [
-                        Image.asset(FypImages.userAvatar),
+                        Image.asset(FypImages.userAvatar,height: 40,width: 40,),
                         SizedBox(width: 10),
                         Icon(Icons.arrow_drop_down, color: Colors.white),
                       ],

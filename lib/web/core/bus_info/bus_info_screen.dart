@@ -44,41 +44,80 @@ class _BusInfoScreenState extends State<BusInfoScreen> {
     final currentWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Container(
-          height: double.infinity,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: primaryColor,
-              width: 2,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Container(
+            height: double.infinity,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: primaryColor,
+                width: 2,
+              ),
             ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-            child: Column(
-              children: [
-                FypText(
-                  text: "Bus Information",
-                  color: primaryColor,
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Card(
-                  color: Colors.white,
-                  elevation: 10,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 25),
-                    child: currentWidth < 830
-                        ? Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+              child: Column(
+                children: [
+                  FypText(
+                    text: "Bus Information",
+                    color: primaryColor,
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Card(
+                    color: Colors.white,
+                    elevation: 10,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 25),
+                      child: currentWidth < 830
+                          ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                FypText(
+                                  text: "Bus Number",
+                                  fontWeight: FontWeight.w600,
+                                  color: primaryColor,
+                                ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  child: FypTextField(
+                                    controller: context.read<BusProvider>().searchNoController,
+                                    isLabelShow: false,
+                                    fieldHeight: 30,
+                                    onChange: (value) {
+                                      if(context.read<BusProvider>().searchNoController.text.isEmpty){
+                                        Future.delayed(Duration(milliseconds: 1000), () {
+                                          setState(() {
+                                            context.read<BusProvider>().getBuses(context);
+                                          });
+                                        });
+                                      }else{
+                                        Future.delayed(Duration(milliseconds: 1000), () {
+                                          setState(() {
+                                            context.read<BusProvider>().searchBus(context);
+                                          });
+                                        });
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      )
+                          : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
                             children: [
@@ -88,7 +127,8 @@ class _BusInfoScreenState extends State<BusInfoScreen> {
                                 color: primaryColor,
                               ),
                               SizedBox(width: 10),
-                              Expanded(
+                              Container(
+                                width: currentWidth * 0.2,
                                 child: FypTextField(
                                   controller: context.read<BusProvider>().searchNoController,
                                   isLabelShow: false,
@@ -114,181 +154,143 @@ class _BusInfoScreenState extends State<BusInfoScreen> {
                           ),
                         ],
                       ),
-                    )
-                        : Row(
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
-                            FypText(
-                              text: "Bus Number",
-                              fontWeight: FontWeight.w600,
-                              color: primaryColor,
-                            ),
-                            SizedBox(width: 10),
-                            Container(
-                              width: currentWidth * 0.2,
-                              child: FypTextField(
-                                controller: context.read<BusProvider>().searchNoController,
-                                isLabelShow: false,
-                                fieldHeight: 30,
-                                onChange: (value) {
-                                  if(context.read<BusProvider>().searchNoController.text.isEmpty){
-                                    Future.delayed(Duration(milliseconds: 1000), () {
-                                      setState(() {
-                                        context.read<BusProvider>().getBuses(context);
-                                      });
-                                    });
-                                  }else{
-                                    Future.delayed(Duration(milliseconds: 1000), () {
-                                      setState(() {
-                                        context.read<BusProvider>().searchBus(context);
-                                      });
-                                    });
-                                  }
-                                },
-                              ),
-                            ),
-                          ],
+                        Expanded(
+                          child: FypText(
+                            text: "Bus Details",
+                            color: primaryColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
+                        FypButton(
+                          text: "Add New +",
+                          onTap: () {
+                            showDialog(
+                                barrierDismissible: false,
+                                barrierColor: Colors.black26,
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AddBusInfo();
+                                });
+                          },
+                          buttonHeight: 30,
+                          buttonWidth: 130,
+                        )
                       ],
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: FypText(
-                          text: "Bus Details",
-                          color: primaryColor,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      FypButton(
-                        text: "Add New +",
-                        onTap: () {
-                          showDialog(
-                              barrierDismissible: false,
-                              barrierColor: Colors.black26,
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AddBusInfo();
-                              });
-                        },
-                        buttonHeight: 30,
-                        buttonWidth: 130,
-                      )
-                    ],
+                  SizedBox(
+                    height: 20,
                   ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Consumer<BusProvider>(
-                  builder: (context, busProvider, child) {
-                    if (busProvider.isLoading) {
-                      return Center(child: CircularProgressIndicator());
-                    }
-
-                    return Card(
-                      elevation: 10,
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: DataTable(
-                            columns: List.generate(tableLabels.length, (index) {
-                              return DataColumn(
-                                label: FypText(
-                                  text: tableLabels[index],
-                                  color: primaryColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              );
-                            }),
-                            rows: busProvider.busData?.data.map((bus) {
-                              return DataRow(cells: [
-                                DataCell(FypText(
-                                  text: bus.busNo,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                )),
-                                DataCell(FypText(
-                                  text: bus.plateNo,
-                                  color: Colors.black,
-                                )),
-                                DataCell(FypText(
-                                  text: bus.driver.driverName,
-                                  color: Colors.black,
-                                )),
-                                DataCell(FypText(
-                                  text: bus.driver.driverPhone,
-                                  color: Colors.black,
-                                )),
-                                DataCell(FypText(
-                                  text: bus.conductor.conductorName,
-                                  color: Colors.black,
-                                )),
-                                DataCell(FypText(
-                                  text: bus.conductor.conductorPhone,
-                                  color: Colors.black,
-                                )),
-                                DataCell(IconButton(
-                                  icon: Icon(Icons.edit),
-                                  onPressed: () {
-                                    showDialog(
-                                      barrierDismissible: false,
-                                      barrierColor: Colors.black26,
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return EditBusInfo(
-                                          bus: bus,
-                                        );
-                                      },
-                                    );
-                                  },
-                                )),
-                                DataCell(IconButton(
-                                  icon: Icon(Icons.delete),
-                                  onPressed: () {
-                                    showDialog(
-                                      barrierDismissible: false,
-                                      barrierColor: Colors.black26,
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return ConfirmationAlert(
-                                            isLoading: context
-                                                .watch<BusProvider>()
-                                                .isDelLoading,
-                                            title: "Delete?",
-                                            subTitle:
-                                            "Do you want to delete this bus?",
-                                            onTap: () async{
-                                              await context.read<BusProvider>().deleteBus(context, bus.busId);
-                                              Navigator.pop(context);
-                                              context.read<BusProvider>().getBuses(context);
-                                            });
-                                      },
-                                    );
-                                  },
-                                )),
-                              ]);
-                            }).toList() ??
-                                [],
+                  Consumer<BusProvider>(
+                    builder: (context, busProvider, child) {
+                      if (busProvider.isLoading) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+        
+                      return Card(
+                        elevation: 10,
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: DataTable(
+                              columns: List.generate(tableLabels.length, (index) {
+                                return DataColumn(
+                                  label: FypText(
+                                    text: tableLabels[index],
+                                    color: primaryColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                );
+                              }),
+                              rows: busProvider.busData?.data.map((bus) {
+                                return DataRow(cells: [
+                                  DataCell(FypText(
+                                    text: bus.busNo,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  )),
+                                  DataCell(FypText(
+                                    text: bus.plateNo,
+                                    color: Colors.black,
+                                  )),
+                                  DataCell(FypText(
+                                    text: bus.driver.driverName,
+                                    color: Colors.black,
+                                  )),
+                                  DataCell(FypText(
+                                    text: bus.driver.driverPhone,
+                                    color: Colors.black,
+                                  )),
+                                  DataCell(FypText(
+                                    text: bus.conductor.conductorName,
+                                    color: Colors.black,
+                                  )),
+                                  DataCell(FypText(
+                                    text: bus.conductor.conductorPhone,
+                                    color: Colors.black,
+                                  )),
+                                  DataCell(IconButton(
+                                    icon: Icon(Icons.edit),
+                                    onPressed: () {
+                                      showDialog(
+                                        barrierDismissible: false,
+                                        barrierColor: Colors.black26,
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return EditBusInfo(
+                                            bus: bus,
+                                          );
+                                        },
+                                      );
+                                    },
+                                  )),
+                                  DataCell(IconButton(
+                                    icon: Icon(Icons.delete),
+                                    onPressed: () {
+                                      showDialog(
+                                        barrierDismissible: false,
+                                        barrierColor: Colors.black26,
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return ConfirmationAlert(
+                                              isLoading: context
+                                                  .watch<BusProvider>()
+                                                  .isDelLoading,
+                                              title: "Delete?",
+                                              subTitle:
+                                              "Do you want to delete this bus?",
+                                              onTap: () async{
+                                                await context.read<BusProvider>().deleteBus(context, bus.busId);
+                                                Navigator.pop(context);
+                                                context.read<BusProvider>().getBuses(context);
+                                              });
+                                        },
+                                      );
+                                    },
+                                  )),
+                                ]);
+                              }).toList() ??
+                                  [],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
-                ),
-              ],
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),

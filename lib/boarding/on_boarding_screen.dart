@@ -23,84 +23,86 @@ class _OnBoardingScreenState extends State<FypOnBoardingScreen> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    flex: 5,
-                    child: PageView(
-                      controller: _pageController,
-                      onPageChanged: (value) {
-                        currentPage = value;
-                        setState(() {});
-                      },
-                      children: [
-                        BoardingPage(
-                          title: "Explore Campus Commutes",
-                          subTitle:
-                              "Effortless Navigation for University Transport",
-                          imagePath: "assets/images/boardingImage.png",
-                        ),
-                        BoardingPage(
-                          title: "Campus Connections",
-                          subTitle: "Navigating University Transit Hassle-Free",
-                          imagePath: "assets/images/bannerImage7.jpg",
-                        ),
-                        BoardingPage(
-                          title: "UniRoute Navigator",
-                          subTitle: "Seamless Journeys Across Campus",
-                          imagePath: "assets/images/bannerImage6.jpg",
-                        ),
-                      ],
+      body: SafeArea(
+        child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      flex: 5,
+                      child: PageView(
+                        controller: _pageController,
+                        onPageChanged: (value) {
+                          currentPage = value;
+                          setState(() {});
+                        },
+                        children: [
+                          BoardingPage(
+                            title: "Explore Campus Commutes",
+                            subTitle:
+                                "Effortless Navigation for University Transport",
+                            imagePath: "assets/images/boardingImage.png",
+                          ),
+                          BoardingPage(
+                            title: "Campus Connections",
+                            subTitle: "Navigating University Transit Hassle-Free",
+                            imagePath: "assets/images/bannerImage7.jpg",
+                          ),
+                          BoardingPage(
+                            title: "UniRoute Navigator",
+                            subTitle: "Seamless Journeys Across Campus",
+                            imagePath: "assets/images/bannerImage6.jpg",
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Expanded(
-                      flex: 2,
-                      child: Column(
-                    children: [
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(3, (index) {
-                          return CustomIndicator(isActive: currentPage == index);
-                        }),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      FypButton(
-                        text: "Get Started !",
-                        isDisabled: currentPage == 2 ? false : true,
-                        onTap: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => FypSignUpScreen()));
-                        },
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      FypButton(
-                        buttonColor: primaryColor,
-                        isDisabled: currentPage == 2 ? false : true,
-                        onTap: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => FypLoginScreen()));
-                        },
-                        text: "Already have an account ?",
-                      ),
-                      SizedBox(height: 20,),
-                    ],
-                  )),
-                ],
+                    Expanded(
+                        flex: 2,
+                        child: Column(
+                      children: [
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(3, (index) {
+                            return CustomIndicator(isActive: currentPage == index);
+                          }),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        FypButton(
+                          text: "Get Started !",
+                          isDisabled: currentPage == 2 ? false : true,
+                          onTap: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => FypSignUpScreen()));
+                          },
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        FypButton(
+                          buttonColor: primaryColor,
+                          isDisabled: currentPage == 2 ? false : true,
+                          onTap: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => FypLoginScreen()));
+                          },
+                          text: "Already have an account ?",
+                        ),
+                        SizedBox(height: 20,),
+                      ],
+                    )),
+                  ],
+                ),
               ),
-            ),
+      ),
     );
   }
 }

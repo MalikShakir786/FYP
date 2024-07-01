@@ -9,8 +9,8 @@ import '../../../global/global_widgets/text_Rows.dart';
 import '../../../utils/constants.dart';
 
 class BusDetailsScreen extends StatefulWidget {
-  final int id;
-  final int busId;
+  final String id;
+  final String busId;
 
   const BusDetailsScreen({Key? key, required this.id,
     required this.busId
@@ -80,9 +80,9 @@ class _BusDetailsScreenState extends State<BusDetailsScreen> {
       );
     }
 
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
           children: [
             FypNavBar(title: "Bus Details"),
             SizedBox(

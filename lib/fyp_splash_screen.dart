@@ -27,10 +27,6 @@ class _FypSplashScreenState extends State<FypSplashScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<RouteProvider>().getRoutes(context);
-    context.read<FavProvider>().getFavs(context);
-    context.read<FeedBackProvider>().getFeedback(context);
-    context.read<UserProvider>().getUsers(context);
     moveToMain(context);
   }
 
@@ -52,14 +48,16 @@ class _FypSplashScreenState extends State<FypSplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.white,
-        child: Center(
-          child: AnimatedContainer(
-            height: isAnimate? 120:80,
-              duration: Duration(seconds: 1),
-              curve: Curves.bounceOut,
-              child: Image.asset(FypImages.splashImage)),
+      body: SafeArea(
+        child: Container(
+          color: Colors.white,
+          child: Center(
+            child: AnimatedContainer(
+              height: isAnimate? 120:80,
+                duration: Duration(seconds: 1),
+                curve: Curves.bounceOut,
+                child: Image.asset(FypImages.splashImage)),
+          ),
         ),
       )
     );

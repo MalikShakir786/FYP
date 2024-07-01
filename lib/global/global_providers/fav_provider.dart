@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fyp/global/global_models/fav_model.dart';
 import 'package:fyp/global/global_providers/auth_provider.dart';
+import 'package:fyp/global/global_providers/find_bus_provider.dart';
+import 'package:fyp/global/global_providers/timetable_provider.dart';
 import 'package:fyp/global/global_widgets/toast_message.dart';
 import 'package:provider/provider.dart';
 
@@ -53,7 +55,7 @@ class FavProvider extends ChangeNotifier {
   }
 
   //Delete Favs
-  Future<bool> delFavs(BuildContext context,int busId) async {
+  Future<bool> delFavs(BuildContext context,String busId) async {
 
     final String userId = context.read<AuthProvider>().userData!.userId.toString();
 
@@ -82,7 +84,7 @@ class FavProvider extends ChangeNotifier {
   }
 
   //Add favs
-  Future<bool> addFavs(BuildContext context,int busId) async {
+  Future<bool> addFavs(BuildContext context,String busId) async {
 
     final String userId = context.read<AuthProvider>().userData!.userId.toString();
 

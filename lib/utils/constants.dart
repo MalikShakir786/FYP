@@ -77,7 +77,7 @@ class FypIcons{
 }
 
 class Constants {
-  static const baseUrl = "3fb2-119-73-99-24.ngrok-free.app";
+  static const baseUrl = "a312-119-73-113-12.ngrok-free.app";
 }
 
 class EndPoints {

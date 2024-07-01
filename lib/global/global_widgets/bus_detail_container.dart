@@ -9,14 +9,14 @@ import '../../mobile/core/lists/fav_detail.dart';  // Import the FavDetail scree
 
 class BusDetailContainer extends StatelessWidget {
   final Icon starIcon;  // Change type to Icon
-  final int busNo;
+  final String busNo;
   final String route;
   final String type;
   final String noPlate;
   final String driverName;
   final String driverContact;
-  final int id;
-  final int busId;
+  final String id;
+  final String busId;
   final String screen;
   final String? conductorName;
   final String? conductorContact;

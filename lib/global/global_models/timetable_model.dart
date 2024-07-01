@@ -1,5 +1,5 @@
 class TimetableResponse {
-  final int status;
+  final String status;
   final List<Timetable> timetables;
 
   TimetableResponse({
@@ -18,14 +18,14 @@ class TimetableResponse {
 }
 
 class Timetable {
-  final int id;
-  final int busId;
+  final String id;
+  final String busId;
   final String status;
   final String startTime;
   final String departureTime;
-  final int routeId;
+  final String routeId;
   final String plateNo;
-  final int busNo;
+  final String busNo;
   final String routeName;
   final String startLocation;
   final String via;

@@ -4,23 +4,33 @@ import '../../../../utils/constants.dart';
 import 'package:provider/provider.dart';
 import '../../../../global/global_providers/timetable_provider.dart';
 
-class RouteSaver extends StatelessWidget {
-  const RouteSaver({super.key, required this.routes});
+class RouteSaver extends StatefulWidget {
+  RouteSaver({Key? key, required this.keys, required this.values, this.type = "route"});
 
-  final List<String> routes;
+  final List<String> keys;
+  final List<String> values;
+  final String type;
 
+  @override
+  State<RouteSaver> createState() => _RouteSaverState();
+}
+
+class _RouteSaverState extends State<RouteSaver> {
   @override
   Widget build(BuildContext context) {
     return Wrap(
       spacing: 10,
       runSpacing: 10,
-      children: routes.map((route) {
+      children: List.generate(widget.values.length, (index) {
+        String key = widget.keys[index];
+        String value = widget.values[index];
+
         return Stack(
           alignment: Alignment.centerRight,
           children: [
             GestureDetector(
               onTap: () {
-                // Handle tap event if needed
+                // Handle onTap if needed
               },
               child: Container(
                 height: 30,
@@ -32,12 +42,17 @@ class RouteSaver extends StatelessWidget {
                     width: 2,
                   ),
                 ),
-                child: FypText(text: route, color: Colors.black),
+                child: FypText(text: value, color: Colors.black),
               ),
             ),
             GestureDetector(
               onTap: () {
-                context.read<TimeTableProvider>().removeRoute(route);
+                if(widget.type == "route") {
+                  context.read<TimeTableProvider>().removeRouteId(key);
+                } else if(widget.type == "type") {
+                  context.read<TimeTableProvider>().removeType(key);
+                  context.read<TimeTableProvider>().count--;
+                }
               },
               child: Container(
                 padding: const EdgeInsets.only(right: 5),
@@ -55,7 +70,7 @@ class RouteSaver extends StatelessWidget {
             )
           ],
         );
-      }).toList(),
+      }),
     );
   }
 }

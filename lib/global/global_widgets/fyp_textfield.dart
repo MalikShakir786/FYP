@@ -73,7 +73,7 @@ class FypTextField extends StatelessWidget {
             maxLength: maxLength,
             controller: controller,
             keyboardType: keyboard,
-            style: TextStyle(fontSize: 12),
+            style: TextStyle(fontSize: 14),
             decoration: InputDecoration(
               errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -89,14 +89,14 @@ class FypTextField extends StatelessWidget {
               ),
               filled: true,
               errorText: errorText,
-              contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              contentPadding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
               prefixIcon: prefixIcon,
               suffixIcon: suffixIcon,
               suffixText: suffixText,
-              suffixStyle: TextStyle(color: Colors.grey),
+              suffixStyle: TextStyle(color: Colors.grey,fontSize: 12),
             ),
           ),
         ),

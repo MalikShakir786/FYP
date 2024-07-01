@@ -27,11 +27,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
           children: [
-            FypNavBar(title: "Notifications"),
+            FypNavBar(title: "Notifications",isShowPrefix: false,),
             SizedBox(height: 10,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -40,6 +40,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 labelText: "Bus No.",
                 labelColor: Colors.black,
                 hintText: "Bus Number",
+                prefixIcon: Icon(Icons.bus_alert_rounded,color: primaryColor,),
                 fieldHeight: 30,
                 onChange: (value) {
                   if(context.read<NotificationProvider>().searchController.text.isEmpty){

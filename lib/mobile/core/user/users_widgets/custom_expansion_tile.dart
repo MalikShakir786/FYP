@@ -7,12 +7,16 @@ class CustomExpansionTile extends StatelessWidget {
   final int index;
   final bool isExpanded;
   final ValueChanged<int> onExpansionChanged;
+  final String question;
+  final String answer;
 
   CustomExpansionTile({
     Key? key,
     required this.index,
     required this.isExpanded,
     required this.onExpansionChanged,
+    required this.question,
+    required this.answer,
   }) : super(key: key);
 
   void _handleTap() {
@@ -35,8 +39,8 @@ class CustomExpansionTile extends StatelessWidget {
           GestureDetector(
             onTap: _handleTap,
             child: ListTile(
-              leading: Image.asset(FypIcons.getHelp,height: 18,width: 18,),
-              title: FypText(text: "What is your name?",fontWeight: FontWeight.w600,color: Theme.of(context).colorScheme.secondary,),
+              leading: Image.asset(FypIcons.getHelp, height: 18, width: 18,),
+              title: FypText(text: question, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.secondary,),
               trailing: isExpanded ? Icon(Icons.arrow_drop_up) : Icon(Icons.arrow_drop_down),
             ),
           ),
@@ -46,7 +50,7 @@ class CustomExpansionTile extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 50),
               child: FypText(
-                text: "My name is University of Gujrat",
+                text: answer,
                 fontWeight: FontWeight.w400,
                 color: Theme.of(context).colorScheme.secondary,
               ),

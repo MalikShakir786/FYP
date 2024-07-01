@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -48,60 +49,66 @@ class _GetSupportState extends State<GetSupport> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          FypNavBar(title: "Get Support"),
-          Column(
-            children: [
-              Container(
-                padding: EdgeInsets.all(20),
-                margin: EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black,
-                    width: 1,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            FypNavBar(title: "Get Support"),
+            Expanded(
+              child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    FypTextField(
-                      isDisable: true,
-                      controller: context.read<FeedBackProvider>().fEmailController,
-                      labelText: "Email",
-                      labelColor: Colors.black,
-                      hintText: "Email",
-                      errorText: _errorEmail,
-                    ),
-                    SizedBox(height: 30),
-                    FypTextField(
-                      controller: context.read<FeedBackProvider>().fTitleController,
-                      labelText: "Title",
-                      labelColor: Colors.black,
-                      hintText: "Title",
-                      errorText: _errorTitle,
-                    ),
-                    SizedBox(height: 10),
-                    FypTextField(
-                      controller: context.read<FeedBackProvider>().fDescriptionController,
-                      labelText: "Description",
-                      labelColor: Colors.black,
-                      hintText: "Description",
-                      maxLines: 5,
-                      errorText: _errorDescription,
-                    ),
-                    SizedBox(height: 40),
-                    FypButton(
-                      isLoading: context.watch<FeedBackProvider>().isLoading,
-                      text: "Submit",
-                      onTap: _validateAndSubmit,
+                    Container(
+                      padding: EdgeInsets.all(20),
+                      margin: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        children: [
+                          FypTextField(
+                            isDisable: true,
+                            controller: context.read<FeedBackProvider>().fEmailController,
+                            labelText: "Email",
+                            labelColor: Colors.black,
+                            hintText: "Email",
+                            errorText: _errorEmail,
+                          ),
+                          SizedBox(height: 30),
+                          FypTextField(
+                            controller: context.read<FeedBackProvider>().fTitleController,
+                            labelText: "Title",
+                            labelColor: Colors.black,
+                            hintText: "Title",
+                            errorText: _errorTitle,
+                          ),
+                          SizedBox(height: 10),
+                          FypTextField(
+                            controller: context.read<FeedBackProvider>().fDescriptionController,
+                            labelText: "Description",
+                            labelColor: Colors.black,
+                            hintText: "Description",
+                            maxLines: 5,
+                            errorText: _errorDescription,
+                          ),
+                          SizedBox(height: 40),
+                          FypButton(
+                            isLoading: context.watch<FeedBackProvider>().isLoading,
+                            text: "Submit",
+                            onTap: _validateAndSubmit,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
-            ],
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

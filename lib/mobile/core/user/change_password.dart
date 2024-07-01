@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/utils/constants.dart';
 import 'package:provider/provider.dart';
@@ -50,63 +51,69 @@ class _ChangePasswordState extends State<ChangePassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          FypNavBar(title: "Change Password"),
-          Column(
-            children: [
-              Container(
-                padding: EdgeInsets.all(20),
-                margin: EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black,
-                    width: 1,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            FypNavBar(title: "Change Password"),
+            Expanded(
+              child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    FypTextField(
-                      controller: context.read<AuthProvider>().cCurrentPasswordController,
-                      labelText: "Current Password",
-                      labelColor: Colors.black,
-                      hintText: "Current Password",
-                      prefixIcon: Icon(Icons.lock, color: primaryColor),
-                      errorText: _errorCurrentPassword,
-                    ),
-                    SizedBox(height: 30),
-                    FypTextField(
-                      controller: context.read<AuthProvider>().cNewPasswordController,
-                      labelText: "New Password",
-                      labelColor: Colors.black,
-                      hintText: "New Password",
-                      prefixIcon: Icon(Icons.lock, color: primaryColor),
-                      errorText: _errorNewPassword,
-                    ),
-                    SizedBox(height: 10),
-                    FypTextField(
-                      controller: context.read<AuthProvider>().cConfirmPasswordController,
-                      labelText: "Confirm Password",
-                      labelColor: Colors.black,
-                      hintText: "Confirm Password",
-                      prefixIcon: Icon(Icons.lock, color: primaryColor),
-                      errorText: _errorConfirmPassword,
-                    ),
-                    SizedBox(height: 40),
-                    FypButton(
-                      isLoading: context.watch<AuthProvider>().isLoading,
-                      text: "Change",
-                      onTap: (){
-                        _validateAndChangePassword();
-                      },
+                    Container(
+                      padding: EdgeInsets.all(20),
+                      margin: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        children: [
+                          FypTextField(
+                            controller: context.read<AuthProvider>().cCurrentPasswordController,
+                            labelText: "Current Password",
+                            labelColor: Colors.black,
+                            hintText: "Current Password",
+                            prefixIcon: Icon(Icons.lock, color: primaryColor),
+                            errorText: _errorCurrentPassword,
+                          ),
+                          SizedBox(height: 30),
+                          FypTextField(
+                            controller: context.read<AuthProvider>().cNewPasswordController,
+                            labelText: "New Password",
+                            labelColor: Colors.black,
+                            hintText: "New Password",
+                            prefixIcon: Icon(Icons.lock, color: primaryColor),
+                            errorText: _errorNewPassword,
+                          ),
+                          SizedBox(height: 10),
+                          FypTextField(
+                            controller: context.read<AuthProvider>().cConfirmPasswordController,
+                            labelText: "Confirm Password",
+                            labelColor: Colors.black,
+                            hintText: "Confirm Password",
+                            prefixIcon: Icon(Icons.lock, color: primaryColor),
+                            errorText: _errorConfirmPassword,
+                          ),
+                          SizedBox(height: 40),
+                          FypButton(
+                            isLoading: context.watch<AuthProvider>().isLoading,
+                            text: "Change",
+                            onTap: (){
+                              _validateAndChangePassword();
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
-            ],
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

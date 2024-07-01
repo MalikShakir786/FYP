@@ -28,7 +28,7 @@ class DetailAlert extends StatelessWidget {
                     FypIcons.infoIcon,
                     width: 80,
                     height: 80,
-                  )
+                  ),
                 ],
               ),
               SizedBox(height: 10),
@@ -51,11 +51,12 @@ class DetailAlert extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  context.watch<NotificationProvider>().isDelLoading?
-                      CircularProgressIndicator():
-                  IconButton(
-                    icon: Icon(Icons.delete,color: primaryColor,),
-                    onPressed: () async{
+                  FypButton(
+                    text: "Delete",
+                    buttonWidth: 100,
+                    buttonColor: primaryColor,
+                    isLoading: context.watch<NotificationProvider>().isDelLoading,
+                    onTap: () async {
                       await context.read<NotificationProvider>().deleteNotifications(context, notification.id);
                       Navigator.pop(context);
                     },
@@ -76,3 +77,4 @@ class DetailAlert extends StatelessWidget {
     );
   }
 }
+

@@ -10,8 +10,8 @@ import '../../../global/global_widgets/text_Rows.dart';
 import '../../../utils/constants.dart';
 
 class FavDetail extends StatelessWidget {
-  final int id;
-  final int busNo;
+  final String id;
+  final String busNo;
   final String route;
   final String type;
   final String noPlate;
@@ -35,9 +35,9 @@ class FavDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
           children: [
             FypNavBar(title: "Bus Details"),
             SizedBox(

@@ -73,9 +73,9 @@ class _DropDownFieldState extends State<DropDownField> {
               }
             },
             enabled: widget.isEnable,
-            onTapOutside: (value) {
-              FocusScope.of(context).unfocus();
-            },
+            // onTapOutside: (value) {
+            //   FocusScope.of(context).unfocus();
+            // },
             initialValue: widget.initialValue != null
                 ? SearchFieldListItem(
               widget.initialValue!,

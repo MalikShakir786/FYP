@@ -9,11 +9,13 @@ class FypNavBar extends StatelessWidget {
     required this.title,
     this.prefixIcon,
     this.onTap,
+    this.isShowPrefix = true
   });
 
   final String title;
   final Widget? prefixIcon;
   final VoidCallback? onTap;
+  final bool isShowPrefix;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,7 @@ class FypNavBar extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              if(isShowPrefix)
               Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: Align(
@@ -45,7 +48,8 @@ class FypNavBar extends StatelessWidget {
                     onTap: onTap ?? () {
                       Navigator.pop(context);
                     },
-                    child: prefixIcon ?? Image.asset(FypIcons.backArrow, height: 18),
+                    child:
+                    prefixIcon ?? Image.asset(FypIcons.backArrow, height: 18),
                   ),
                 ),
               ),

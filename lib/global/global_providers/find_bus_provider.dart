@@ -20,7 +20,7 @@ class FindBusProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Timetable? getBusDetailById(int id) {
+  Timetable? getBusDetailById(String id) {
     try {
       return timetables.firstWhere((bus) => bus.id == id);
     } catch (e) {
@@ -30,7 +30,7 @@ class FindBusProvider extends ChangeNotifier {
 
 
   List<String> destinationLocations = ["Gujrat","Karachi","Lahore","Abbotabad","Islamabad","Peshawar","Mardan","dsgdf dzfgfsddsf dfsdf"];
-  List<String> busTimings = ["8:45 am","1:30 pm","3:00 pm","4:45 pm"];
+  List<String> busTimings = ["12:00:00","13:30:00","15:00:00","16:30:00"];
   List<String> busNumbers = List.generate(20, (index) => (index+1).toString());
 
   var originController = TextEditingController();

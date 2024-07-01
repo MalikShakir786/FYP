@@ -252,10 +252,12 @@ class AuthProvider extends ChangeNotifier {
 
 
     final body = {
-      "user_id": "3",
+      "user_id": userData!.userId,
       "current_password": cCurrentPasswordController.text.trim(),
       "new_password": cNewPasswordController.text.trim(),
     };
+
+    print(body);
 
     setIsLoading(true);
     var response = await http.put(

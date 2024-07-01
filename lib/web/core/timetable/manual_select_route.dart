@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fyp/global/global_providers/timetable_provider.dart';
 import 'package:fyp/global/global_widgets/confirmation_alert.dart';
 import 'package:fyp/global/global_widgets/fyp_button.dart';
 import 'package:fyp/web/core/route/add_route.dart';
@@ -12,14 +13,14 @@ import '../../../global/global_widgets/fyp_textfield.dart';
 import '../../../utils/constants.dart';
 import '../route/route_widgets/routeContainer.dart';
 
-class RoutesScreen extends StatefulWidget {
-  const RoutesScreen({super.key});
+class ManualSelectRoute extends StatefulWidget {
+  const ManualSelectRoute({super.key});
 
   @override
-  State<RoutesScreen> createState() => _RoutesScreenState();
+  State<ManualSelectRoute> createState() => _ManualSelectRouteState();
 }
 
-class _RoutesScreenState extends State<RoutesScreen> {
+class _ManualSelectRouteState extends State<ManualSelectRoute> {
 
   @override
   void initState() {
@@ -62,15 +63,15 @@ class _RoutesScreenState extends State<RoutesScreen> {
                     Align(
                         alignment: Alignment.bottomRight,
                         child: FypButton(text: "Add New",buttonHeight: 30,buttonWidth: 110,
-                        onTap: (){
-                          showDialog(
-                              barrierDismissible: false,
-                              barrierColor: Colors.black26,
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AddRoute();
-                              });
-                        },
+                          onTap: (){
+                            showDialog(
+                                barrierDismissible: false,
+                                barrierColor: Colors.black26,
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AddRoute();
+                                });
+                          },
                         ))
                   ],
                 ),
@@ -86,7 +87,7 @@ class _RoutesScreenState extends State<RoutesScreen> {
                         }
                       });
                     });
-        
+
                   },
                   labelText: "Route",
                   hintText: "Route",
@@ -104,7 +105,7 @@ class _RoutesScreenState extends State<RoutesScreen> {
                       if (routeProvider.isLoading) {
                         return Center(child: CircularProgressIndicator());
                       }
-        
+
                       if (routeProvider.routes.isEmpty) {
                         return Center(
                           child: FypText(
@@ -114,46 +115,52 @@ class _RoutesScreenState extends State<RoutesScreen> {
                           ),
                         );
                       }
-        
+
                       return ListView.builder(
                         itemCount: routeProvider.routes.length,
                         itemBuilder: (context, index) {
                           final route = routeProvider.routes[index];
                           return Column(
                             children: [
-                              routeContainer(
-                                onDelTap: (){
-                                  showDialog(
-                                      barrierDismissible: false,
-                                      barrierColor: Colors.black26,
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return ConfirmationAlert(
-                                            isLoading: context.watch<RouteProvider>().isDelLoading,
-                                            title: "Delete?", subTitle: "Do you want to delete this route?", onTap: ()async{
-                                              await context.read<RouteProvider>().deleteRoute(context, int.parse(route.id));
-                                              Navigator.pop(context);
-                                              context.read<RouteProvider>().getRoutes(context);
+                              GestureDetector(
+                                onTap: (){
+                                  context.read<TimeTableProvider>().setRouteId(route.id.toString(),"${route.rname},${route.endLocation}");
+                                  Navigator.pop(context);
+                                },
+                                child: routeContainer(
+                                  onDelTap: (){
+                                    showDialog(
+                                        barrierDismissible: false,
+                                        barrierColor: Colors.black26,
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return ConfirmationAlert(
+                                              isLoading: context.watch<RouteProvider>().isDelLoading,
+                                              title: "Delete?", subTitle: "Do you want to delete this route?", onTap: ()async{
+                                            await context.read<RouteProvider>().deleteRoute(context, int.parse(route.id));
+                                            Navigator.pop(context);
+                                            context.read<RouteProvider>().getRoutes(context);
+                                          });
+
                                         });
-        
-                                      });
-                                },
-                                onEditTap: (){
-                                  showDialog(
-                                      barrierDismissible: false,
-                                      barrierColor: Colors.black26,
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return EditRouteInfo(
-                                          route: route,
-                                        );
-                                      });
-                                },
-                                rname: route.rname,
-                                startlocation: route.startLocation,
-                                endlocation: route.endLocation,
-                                via: route.via,
-                                duration: route.duration,
+                                  },
+                                  onEditTap: (){
+                                    showDialog(
+                                        barrierDismissible: false,
+                                        barrierColor: Colors.black26,
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return EditRouteInfo(
+                                            route: route,
+                                          );
+                                        });
+                                  },
+                                  rname: route.rname,
+                                  startlocation: route.startLocation,
+                                  endlocation: route.endLocation,
+                                  via: route.via,
+                                  duration: route.duration,
+                                ),
                               ),
                               SizedBox(height: 10,),
                             ],

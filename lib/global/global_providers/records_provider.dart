@@ -21,6 +21,7 @@ class RecordsProvider extends ChangeNotifier{
   BusRecordsResponse? records;
 
   Future<void> getRecords(BuildContext context) async {
+    records = null;
 
     var url = Uri.https(Constants.baseUrl, EndPoints.getRecords);
     final Map<String, String> headers = {'Content-Type': 'application/json'};

@@ -4,6 +4,7 @@ import 'package:fyp/web/core/dashboard/main_dashboard.dart';
 import 'package:fyp/web/core/feedback/feedback_screen.dart';
 import 'package:fyp/web/core/timetable/timetable_screen.dart';
 import 'package:fyp/web/core/route/routes_screen.dart';
+import '../../../auth/fyp_login_screen.dart';
 import '../../../global/global_widgets/fyp_text.dart';
 import '../../../mobile/core/user/edit_profile.dart';
 import '../../../utils/constants.dart';
@@ -153,6 +154,14 @@ class _MobileDashBoardState extends State<MobileDashBoard> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
+                                DropdownMenuItem<String>(
+                                  value: 'Logout',
+                                  child: FypText(
+                                    text: 'Logout',
+                                    color: primaryColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ],
                               onChanged: (value) {
                                 if (value == 'Dashboard') {
@@ -169,6 +178,8 @@ class _MobileDashBoardState extends State<MobileDashBoard> {
                                       builder: (BuildContext context) {
                                         return EditProfile();
                                       });
+                                }else if(value == "Logout"){
+                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> FypLoginScreen()));
                                 }
                               },
                             ),

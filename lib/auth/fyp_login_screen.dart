@@ -46,7 +46,7 @@ class _FypLoginScreenState extends State<FypLoginScreen> {
       bool isNavigate = await authProvider.login(context);
       if (isNavigate) {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+            context, MaterialPageRoute(builder: (context) => DashBoardScreen()));
       }
     }
   }
@@ -54,10 +54,10 @@ class _FypLoginScreenState extends State<FypLoginScreen> {
   @override
   Widget build(BuildContext context) {
     final currentWidth = MediaQuery.of(context).size.width;
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        body: Stack(
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      body: SafeArea(
+        child: Stack(
           children: [
             Opacity(
               opacity: 0.7,
@@ -71,93 +71,99 @@ class _FypLoginScreenState extends State<FypLoginScreen> {
             Center(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: currentWidth>420 ? 400: double.infinity,
-                      decoration: BoxDecoration(
-                        color: primaryColor.withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 10,
-                            ),
-                            FypText(
-                              text: "Login",
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                            SizedBox(height: 20,),
-                            FypTextField(
-                              controller: context.read<AuthProvider>().lEmailController,
-                              labelText: "UOG Email",
-                              prefixIcon: Icon(Icons.email,color: primaryColor,),
-                              suffixText: "@uog.edu.pk",
-                              errorText: errorEmail,
-                            ),
-                            SizedBox(height: 10,),
-                            FypTextField(
-                              controller: context.read<AuthProvider>().lPasswordController,
-                              labelText: "Password",
-                              prefixIcon: Icon(Icons.lock,color: primaryColor,),
-                              suffixIcon: Icon(Icons.remove_red_eye,color: primaryColor,),
-                              errorText: errorPassword,
-                            ),
-                            SizedBox(height: 10,),
-                            Align(
-                                alignment: Alignment.centerRight,
-                                child: GestureDetector(
-                                  onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> ForgotPasswordScreen()));
-                                  },
-                                  child: FypText(
-                                    text: "Forgotten Password ?",
-                                    fontSize: 12,
-                                    textDecoration: TextDecoration.underline,
-                                  ),
-                                )),
-                            SizedBox(height: 20,),
-                            FypButton(
-                              isLoading: context.watch<AuthProvider>().isLoading,
-                              text: "Sign In", onTap: (){
-                              _validateAndLogIn(context);
-                              // Navigator.pushReplacement(
-                              //     context, MaterialPageRoute(builder: (context) => HomeScreen()));
-                            },),
-                            SizedBox(height: 10,),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Row(
+                child: Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        FypText(
-                            text: "Don't have an account ?  ",
-                          color: Colors.black,
-                        ),
-                        GestureDetector(
-                          onTap: (){
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> FypSignUpScreen()));
-                          },
-                          child: FypText(text: "Sign Up",
-                          color: primaryColor,
-                            fontSize: 17,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold,
-                            decorationColor: primaryColor,
-                            textDecoration: TextDecoration.underline,
+                        Container(
+                          width: currentWidth>420 ? 400: double.infinity,
+                          decoration: BoxDecoration(
+                            color: primaryColor.withOpacity(0.5),
+                            borderRadius: BorderRadius.circular(30),
                           ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                FypText(
+                                  text: "Login",
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
+                                SizedBox(height: 20,),
+                                FypTextField(
+                                  controller: context.read<AuthProvider>().lEmailController,
+                                  labelText: "UOG Email",
+                                  prefixIcon: Icon(Icons.email,color: primaryColor,),
+                                  suffixText: "@uog.edu.pk",
+                                  errorText: errorEmail,
+                                ),
+                                SizedBox(height: 10,),
+                                FypTextField(
+                                  controller: context.read<AuthProvider>().lPasswordController,
+                                  labelText: "Password",
+                                  prefixIcon: Icon(Icons.lock,color: primaryColor,),
+                                  suffixIcon: Icon(Icons.remove_red_eye,color: primaryColor,),
+                                  errorText: errorPassword,
+                                ),
+                                SizedBox(height: 10,),
+                                Align(
+                                    alignment: Alignment.centerRight,
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=> ForgotPasswordScreen())).then((value){
+                                          context.read<AuthProvider>().clearFields();
+                                        });
+                                      },
+                                      child: FypText(
+                                        text: "Forgotten Password ?",
+                                        fontSize: 12,
+                                        textDecoration: TextDecoration.underline,
+                                      ),
+                                    )),
+                                SizedBox(height: 20,),
+                                FypButton(
+                                  isLoading: context.watch<AuthProvider>().isLoading,
+                                  text: "Sign In", onTap: (){
+                                  _validateAndLogIn(context);
+                                  // Navigator.pushReplacement(
+                                  //     context, MaterialPageRoute(builder: (context) => HomeScreen()));
+                                },),
+                                SizedBox(height: 10,),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            FypText(
+                                text: "Don't have an account ?  ",
+                              color: Colors.black,
+                            ),
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> FypSignUpScreen()));
+                              },
+                              child: FypText(text: "Sign Up",
+                              color: primaryColor,
+                                fontSize: 17,
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.bold,
+                                decorationColor: primaryColor,
+                                textDecoration: TextDecoration.underline,
+                              ),
+                            )
+                          ],
                         )
                       ],
-                    )
-                  ],
+                    ),
+                  ),
                 ),
               ),
             )
